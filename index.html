@@ -6,6 +6,11 @@
     <title>Document</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Allura&family=Didact+Gothic&family=Marck+Script&family=Noto+Serif&family=Roboto+Mono&display=swap" rel="stylesheet">
+
+
 </head>
 <body>
     <!-- All in-line css should be removed or replaced with styling from the style.css stylesheet.
@@ -27,9 +32,9 @@
 
         </aside>
         <section class="column is-four-fifths is-flex is-flex-wrap-wrap is-align-content-space-around" style="border:2px red solid;height :75vh;">
-            <div id="button-container" class="column is-full" style="border: blue 2px solid; height: 14%;">
+            <div id="button-container" class="column is-full box" style="border: blue 2px solid; height: 11%;">
               
-              <div class="field is-grouped is-justify-content-space-around">
+              <div class="field is-grouped is-justify-content-space-around buttons are-medium">
                   
                   <button class="button" id="fantasy">
                     Fantasy
@@ -39,12 +44,12 @@
                     Science Fiction
                   </button>
 
-                  <button class="button" id="romance">
-                    Romance
-                  </button>
-
                   <button class="button" id="mystery">
                     Mystery
+                  </button>
+
+                  <button class="button" id="romance">
+                    Romance
                   </button>
 
                   <button class="button" id="contemporary">
@@ -58,7 +63,7 @@
               </div>
               
             </div>
-            <div id="book-container" class="column is-full columns" style="border: blue 2px solid; height: 35%;">
+            <div id="book-container" class="column is-full columns box" style="border: blue 2px solid; height: 35%;">
                 
                 <div id="book-cover" class ="is-2 column is-flex is-justify-content-center is-align-items-center" style="border: green 2px solid;">
                     <!-- The image source should have the zoom parameter removed or zoom=0 -->
@@ -68,7 +73,7 @@
                     <!-- Book Info Goes Here -->
                 </div>
             </div>
-            <div id="tea-container" class="columns column is-full" style="border: blue 2px solid; height: 35%;">
+            <div id="tea-container" class="columns column is-full box" style="border: blue 2px solid; height: 35%;">
                 <div id="tea-image" class ="is-2 column is-flex is-justify-content-center is-align-items-center" style="border: green 2px solid;">
                     <!-- Depending on the sizes of the tea images, we may need to change the placeholder and/or the styling -->
                     <img src="https://placehold.co/175x265" alt="placeholder image" style="max-height: 95%">
