@@ -1,5 +1,13 @@
 *{
-    font-family: '';
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body {
+    background-color: lightblue;
+}
+
+aside {
+    margin-top: 1%;
 }
 
 #fantasy {
@@ -31,7 +39,15 @@
 
 }
 
-#non-fiction{
+#non-fiction {
     
     font-family: 'Times New Roman', Times, serif;
+}
+
+#book-container {
+    margin: 0%
+}
+
+#tea-container {
+    margin: 0%
 }

@@ -27,12 +27,16 @@
         </nav>
     </header>
 
-    <main class="columns" style="border:green 2px solid; padding:20px; height:100%;">
-        <aside class="column" style="border:2px red solid; height :75vh;">
-
+    <main class="columns" style="padding:20px; height:100%;">
+        <aside class="column box" style="height :75vh;">
+          <form>
+            <label for="book-search">Search for a book:</label><br>
+            <input class="input is-rounded" type="text" placeholder="Rounded input">
+            <button class="button">Submit</button>
+          </form>
         </aside>
-        <section class="column is-four-fifths is-flex is-flex-wrap-wrap is-align-content-space-around" style="border:2px red solid;height :75vh;">
-            <div id="button-container" class="column is-full box" style="border: blue 2px solid; height: 11%;">
+        <section class="column is-four-fifths is-flex is-flex-wrap-wrap is-align-content-space-around" style="height: 75vh;">
+            <div id="button-container" class="column is-full box" style="height: 11%;">
               
               <div class="field is-grouped is-justify-content-space-around buttons are-medium">
                   
@@ -63,7 +67,7 @@
               </div>
               
             </div>
-            <div id="book-container" class="column is-full columns box" style="border: blue 2px solid; height: 35%;">
+            <div id="book-container" class="column is-full columns box" style="height: 35%;">
                 
                 <div id="book-cover" class ="is-2 column is-flex is-justify-content-center is-align-items-center" style="border: green 2px solid;">
                     <!-- The image source should have the zoom parameter removed or zoom=0 -->
@@ -73,7 +77,7 @@
                     <!-- Book Info Goes Here -->
                 </div>
             </div>
-            <div id="tea-container" class="columns column is-full box" style="border: blue 2px solid; height: 35%;">
+            <div id="tea-container" class="columns column is-full box" style="height: 35%;">
                 <div id="tea-image" class ="is-2 column is-flex is-justify-content-center is-align-items-center" style="border: green 2px solid;">
                     <!-- Depending on the sizes of the tea images, we may need to change the placeholder and/or the styling -->
                     <img src="https://placehold.co/175x265" alt="placeholder image" style="max-height: 95%">
