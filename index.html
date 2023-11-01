@@ -6,14 +6,21 @@
     <title>Document</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Allura&family=Didact+Gothic&family=Marck+Script&family=Noto+Serif&family=Roboto+Mono&display=swap" rel="stylesheet">
+
+
 </head>
 <body>
     <!-- All in-line css should be removed or replaced with styling from the style.css stylesheet.
     The current styling is only present so that the team can see the different content sections -->
 
+    <!-- Reilly 11/1 -->
+    <!-- Removed most of the inline styling, kept some borders to be able to see containers but will remove later. Kept some inline styling that worked well and would only make the css more messy -->
 
     <header>    
-        <nav class="navbar column is-full is-warning" role="navigation" aria-label="main navigation">
+        <nav class="navbar column is-full is-light" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
             <a class="navbar-item" href="index.html">
                 <img src="./assets/images/leaflit_placeholder2.png" alt="Leaflit Logo" style="min-width: 213.3px; min-height:64.6px;">
@@ -22,14 +29,50 @@
         </nav>
     </header>
 
-    <main class="columns" style="border:green 2px solid; padding:20px; height:100%;">
-        <aside class="column" style="border:2px red solid; height :75vh;">
-
+    <main class="columns">
+        <aside class="column box">
+          <form id="search-form">
+            <label for="book-search" class="m-1">Search for a book:</label><br>
+            <input class="input is-rounded mt-2" type="text" id="search-input" placeholder="Book name">
+            <button class="button m-3" id="search-btn">Search</button>
+          </form>
         </aside>
-        <section class="column is-four-fifths is-flex is-flex-wrap-wrap is-align-content-space-around" style="border:2px red solid;height :75vh;">
-            <div id="button-container" class="column is-full" style="border: blue 2px solid; height: 20%;"></div>
-            <div id="book-container" class="column is-full columns" style="border: blue 2px solid; height: 35%;">
+        <section class="column is-four-fifths is-flex is-flex-wrap-wrap is-align-content-space-around">
+            <div id="button-container" class="column is-full box" style="height: 11%;">
+              
+              <div class="field is-grouped is-justify-content-space-around buttons are-medium">
+                  
+                  <button class="button" id="fantasy">
+                    Fantasy
+                  </button>
                 
+                  <button class="button" id="science-fiction">
+                    Science Fiction
+                  </button>
+
+                  <button class="button" id="mystery">
+                    Mystery
+                  </button>
+
+                  <button class="button" id="romance">
+                    Romance
+                  </button>
+
+                  <button class="button" id="contemporary">
+                    Contemporary
+                  </button>
+
+                  <button class="button" id="non-fiction">
+                    Non-Fiction
+                  </button>
+
+              </div>
+              
+            </div>
+            <!-- Reilly 11/1 -->
+            <!-- I left the green borders so we would be able to see the containers -->
+            <div id="book-container" class="column is-full columns box" style="height: 35%;">
+                 
                 <div id="book-cover" class ="is-2 column is-flex is-justify-content-center is-align-items-center" style="border: green 2px solid;">
                     <!-- The image source should have the zoom parameter removed or zoom=0 -->
                     <img src="https://placehold.co/175x265" alt="placeholder image" style="max-height: 95%">
@@ -38,7 +81,7 @@
                     <!-- Book Info Goes Here -->
                 </div>
             </div>
-            <div id="tea-container" class="columns column is-full" style="border: blue 2px solid; height: 35%;">
+            <div id="tea-container" class="columns column is-full box" style="height: 35%;">
                 <div id="tea-image" class ="is-2 column is-flex is-justify-content-center is-align-items-center" style="border: green 2px solid;">
                     <!-- Depending on the sizes of the tea images, we may need to change the placeholder and/or the styling -->
                     <img src="https://placehold.co/175x265" alt="placeholder image" style="max-height: 95%">
