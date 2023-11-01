@@ -1,14 +1,38 @@
+
+/* Universal */
 *{
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
+
+/* Element Selectors */
 body {
     background-color: lightblue;
+    min-height: 100vh;
+}
+
+
+main {
+    padding:20px; 
+    height:100%;
+}
+
+section {
+    margin-top: 1%;
+    height: 75vh;
 }
 
 aside {
     margin-top: 1%;
+    height: 75vh;
 }
+
+label {
+    margin-left: 3%;
+}
+
+
+/* ID's */
 
 #fantasy {
 
