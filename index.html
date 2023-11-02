@@ -30,7 +30,7 @@
     </header>
 
     <main class="columns">
-        <aside class="column box">
+        <aside class="column box box-background-color">
           <form id="search-form">
             <label for="book-search" class="m-1">Search for a book:</label><br>
             <input class="input is-rounded mt-2" type="text" id="search-input" placeholder="Book name">
@@ -38,7 +38,7 @@
           </form>
         </aside>
         <section class="column is-four-fifths is-flex is-flex-wrap-wrap is-align-content-space-around">
-            <div id="button-container" class="column is-full box" style="height: 11%;">
+            <div id="button-container" class="column is-full box box-background-color" style="height: 11%;">
               
               <div class="field is-grouped is-justify-content-space-around buttons are-medium">
                   
@@ -71,22 +71,22 @@
             </div>
             <!-- Reilly 11/1 -->
             <!-- I left the green borders so we would be able to see the containers -->
-            <div id="book-container" class="column is-full columns box" style="height: 35%;">
+            <div id="book-container" class="column is-full columns box box-background-color" style="height: 35%;">
                  
-                <div id="book-cover" class ="is-2 column is-flex is-justify-content-center is-align-items-center" style="border: green 2px solid;">
+                <div class ="is-2 column is-flex is-justify-content-center is-align-items-center">
                     <!-- The image source should have the zoom parameter removed or zoom=0 -->
-                    <img src="https://placehold.co/175x265" alt="placeholder image" style="max-height: 95%">
+                    <img id="book-cover" src="https://placehold.co/175x265" alt="placeholder image" style="max-height: 95%">
                 </div>
-                <div id="book-info" class ="column" style="border: green 2px solid;">
+                <div id="book-info" class ="column">
                     <!-- Book Info Goes Here -->
                 </div>
             </div>
-            <div id="tea-container" class="columns column is-full box" style="height: 35%;">
-                <div id="tea-image" class ="is-2 column is-flex is-justify-content-center is-align-items-center" style="border: green 2px solid;">
+            <div id="tea-container" class="columns column is-full box box-background-color" style="height: 35%;">
+                <div class ="is-2 column is-flex is-justify-content-center is-align-items-center">
                     <!-- Depending on the sizes of the tea images, we may need to change the placeholder and/or the styling -->
-                    <img src="https://placehold.co/175x265" alt="placeholder image" style="max-height: 95%">
+                    <img id="tea-image" src="https://placehold.co/175x265" alt="placeholder image" style="max-height: 95%">
                 </div>
-                <div id="tea-info" class ="column" style="border: green 2px solid;">
+                <div id="tea-info" class ="column">
                     <!-- Tea Info Goes Here -->
                     
                 </div>
