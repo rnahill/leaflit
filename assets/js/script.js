@@ -1,15 +1,45 @@
+ var genre = ("");
 
 
-GetTea()
 
-async function GetTea(){
+function decideTea(){
+switch (genre){
+case genre = ("fantasy"): 
+    ReleventTea = ("Earl Grey");
+    break;
+ case genre = ("science-fiction"):
+    ReleventTea = ("Wulong");
+    break;
+case genre = ("mystery"):
+    ReleventTea = ("White");
+    break;
+case genre = ("romance"):
+    ReleventTea = ("Matcha");
+    break;
+case genre = ("contemporary"):
+    ReleventTea = ("Green");
+    break;
+case genre = ("non-fiction"):
+    ReleventTea = ("Russian Caravan");
+    break;
+default:
+    ReleventTea = ("English Breakfast");
+}
+console.log(ReleventTea);
+}
+decideTea();
+RequestTea();
+
+// converts the relevent Tea to a request to TEA API. This can then be used to write the data on the page. 
+async function RequestTea(){
     // get the tea from https://boonakitea.cyclic.app/ 
-var TeaResponse = await fetch("https://boonakitea.cyclic.app/api/teas/" + ReleventTea)
+    var TeaResponse = await fetch("https://boonakitea.cyclic.app/api/teas/" + ReleventTea);
+    
 //  turn the tea to json and give it a variable, this can be used as the "currently displayed" Tea and we can re-use the variable later in search history. 
-var activeTea = TeaResponse.json()
+    var activeTea = TeaResponse.json();
 // logging both temporarily. 
-console.log(TeaResponse);
-console.log(activeTea);
+    console.log(TeaResponse);
+    console.log(activeTea);
 }
 
 var sGoogleAPIKey = "AIzaSyCbu_8RcyObinDL7LccNRfmOL48r1GqpiQ";
