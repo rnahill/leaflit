@@ -1,7 +1,43 @@
 
+var sGoogleAPIKey = "AIzaSyCbu_8RcyObinDL7LccNRfmOL48r1GqpiQ";
 
-GetTea()
+//-----------------------------------------------------------------START  
+loadPage();
 
+
+//-----------------------------------------------------------------loadpage()
+function loadPage() {
+    var search_btn = document.querySelector("#search-btn");
+    search_btn.addEventListener("click", doSearchBook);
+    search_btn.type="button";
+
+    var arrButtonsIDs = ["#fantasy","#science-fiction","#mystery","#romance","#contemporary","#non-fiction"];
+    for (i in arrButtonsIDs) {
+        var btn = document.querySelector(arrButtonsIDs[i]);
+        btn .addEventListener("click", doSearchGanre);
+    }
+
+    createLocalStorageButtons();
+}
+
+//----------------------------------------------------------------------------------- doSearchBook
+function doSearchBook() {
+    searchByTypedText();
+    //GetTea();
+}
+
+//----------------------------------------------------------------------------------- doSearchGanre
+function doSearchGanre() {
+    searchByGenre()
+    //GetTea();
+}
+//------------------------------------------------------------------------------------create genre buttons
+function createLocalStorageButtons(){
+    //Here, we will take saved local storage information and setup the buttons
+    var buttonsSection = document.querySelector("#search-box");
+}
+
+//----------------------------------------------------------------
 async function GetTea(){
     // get the tea from https://boonakitea.cyclic.app/ 
 var TeaResponse = await fetch("https://boonakitea.cyclic.app/api/teas/" + ReleventTea)
@@ -12,16 +48,16 @@ console.log(TeaResponse);
 console.log(activeTea);
 }
 
-var sGoogleAPIKey = "AIzaSyCbu_8RcyObinDL7LccNRfmOL48r1GqpiQ";
+
 
 //------------------------------------------------------------------------------------
 
-function searchByGenre(sID) {
-
+function searchByGenre() {
+    var sID = $(this.id);
     var sSubject= sID;  //"autobiography", 'fiction', 'humor', 'mystery',  - OK
 
     var sGoogleURL = "https://www.googleapis.com/books/v1/volumes?q=";
-    var sKeySearch = "subject:" + sSubject; 
+    var sKeySearch = "subject" + ":" + sSubject; 
     var sMyKey = "&key=" + sGoogleAPIKey;
     var sFetchURL = sGoogleURL + sKeySearch + sMyKey;
 
@@ -30,99 +66,74 @@ function searchByGenre(sID) {
             return res.json();
         })
         .then(function(result) {
-            readResult(result);
+            var oItems = result.items;
+            var iLength = oItems.length;
+            var iRandomIndex = getRandomNumber(iLength);
+            var resultSingle = oItems[iRandomIndex];
+            //readResults(result);
+            readResultSingle(resultSingle);
         }),
         function(error) {
             console.log(error);
         };
-
 }
 
-        //-------------------------------------------------------------------------------------------------------THIS WORKS
-        function  searchByText() {
+        //------------------------------------------------------------------searchByTypedText
+        function  searchByTypedText() {
 
-            var selectObject = $("#select_options");
-            var selectedText = selectObject.find(":selected").text();
+            var selectedText = "title"; //["title" ,  "author", "publisher"]
             selectedText = "in" + selectedText;
-
-            var oTypedText = document.querySelector("#book_search");
+        
+            var oTypedText = document.querySelector("#search-input");
             var typedText = oTypedText.value;
-
+            oTypedText.value = "";
+            
             var sGoogleURL =     "https://www.googleapis.com/books/v1/volumes?q=";
-            var sKeySearch = selectedText  + "=" + typedText ;      
-            var sFetchURL = sGoogleURL + sKeySearch;
+            var sKeySearch = selectedText  + ":" + typedText ;      
+            var sMyKey = "&key=" + sGoogleAPIKey;
+            var sFetchURL = sGoogleURL + sKeySearch + sMyKey;
+        
             fetch(sFetchURL)
-      .then(function(res) {
-        return res.json();
-      })
-      .then(function(result) {
-        title = result.items[0].volumeInfo.title;
-        description = result.items[0].volumeInfo.description;
-        var screenBookArea = document.querySelector("#google-books");
-        screenBookArea.innerText = title + "\n" + description;
-      }),
-      function(error) {
-        console.log(error);
-      };
-    
-    }
+            .then(function(res) {
+            return res.json();
+            })
+            .then(function(result) {
+            var resultSingle = result.items[0];
+            readResultSingle(resultSingle);
+            }),
+            function(error) {
+            console.log(error);
+            };
+        }
 
-//------------------------------------------------------------------------------------
-function readResult(result) {
+//---------------------------------------------------------------------------readResultSingle
+function readResultSingle(oItem) {
    
     var sToDisplay = "";
-    var oItems = result.items;
-    for (let i = 0; i < oItems.length; i++) {
-
-        sToDisplay += "Title: " + oItems[i].volumeInfo.title;
-        sToDisplay += '\n';
-        
-        sToDisplay += "Author: " + oItems[i].volumeInfo.authors;
-        sToDisplay += '\n';
-
-        sToDisplay += "Publisher: " + oItems[i].volumeInfo.publisher;
-        sToDisplay += '\n';
-
-        sToDisplay += "Length: " + oItems[i].volumeInfo.pageCount + " pages";
-        sToDisplay += '\n';
-
-        sToDisplay += "Category: " + oItems[i].volumeInfo.categories;
-        sToDisplay += '\n';
-
-        sToDisplay += "Description: " + oItems[i].volumeInfo.description;
-        sToDisplay += '\n';
-
-        sToDisplay += '\n';
-        sToDisplay += '\n';
-
-       
-
-    }
-
-    var screenBookArea = document.querySelector("#google-books");
+    sToDisplay += "Title: " + oItem.volumeInfo.title;               sToDisplay += '\n';            
+    sToDisplay += "Author: " + oItem.volumeInfo.authors;     sToDisplay += '\n';   
+    sToDisplay += "Publisher: " + oItem.volumeInfo.publisher;   sToDisplay += '\n';    
+    sToDisplay += "Length: " + oItem.volumeInfo.pageCount + " pages";  sToDisplay += '\n';    
+    sToDisplay += "Category: " + oItem.volumeInfo.categories;  sToDisplay += '\n';
+        //sToDisplay += "Description: " + oItem.volumeInfo.description;  sToDisplay += '\n';    
+     
+   var screenBookArea = document.querySelector("#book-info");
     screenBookArea.innerText = sToDisplay;
-}
 
-//-----------------------------------------------------------------loadpage()
-function loadPage() {
-    var arr_fields = ["title" ,  "author", "publisher"];
-    var selectSection = document.querySelector(".selection");
-    var selectList= document.createElement("select");    
-    selectList.id = "select_options";
 
-    for(var i in arr_fields) {
+    var sThumbnail = oItem.volumeInfo.imageLinks.thumbnail;       //adding thumbnail for the book
+    var screenCoverArea = $("#book-cover");
+    screenCoverArea.attr('src', sThumbnail);//innerHTML = sThumbnail;
 
-            var option = document.createElement("option");
-            option.value = arr_fields[i];
-            option.text = arr_fields[i];
-            selectList.appendChild(option);
-    }
-    selectSection.appendChild(selectList);
-
-    //<option value = "title" text = "Title" label="title"></option>
-    //<option value = "author" text = "Author" label="author"></option>
-    //<option value = "publisher" text = "Publisher" label="publisher"></option>
-
+    var sIdentifier = oItem.volumeInfo.industryIdentifiers[0].identifer;
+    sToDisplay += "ISBN: " + sIdentifier;  sToDisplay += '\n';
 
 }
+
+//----------------------------------------------------------------getRandomNumber() function
+function getRandomNumber(iLength) {
+    return Math.floor(Math.random() * iLength);
+}
+
+
 
