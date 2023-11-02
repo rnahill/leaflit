@@ -1,6 +1,15 @@
- var genre = ("");
+var ReleventTea = ("")
+var AvailableGenres = document.getElementsByClassName("button")
 
+const buttonPressed = e => {
+    genre = (e.target.id);
+    console.log(genre);
+    return genre; 
+  }
 
+  for (genre of AvailableGenres) {
+    genre.addEventListener("click", buttonPressed);
+  }
 
 function decideTea(){
 switch (genre){
@@ -24,10 +33,9 @@ case genre = ("non-fiction"):
     break;
 default:
     ReleventTea = ("English Breakfast");
-}
-console.log(ReleventTea);
-}
-decideTea();
+}}
+
+
 RequestTea();
 
 // converts the relevent Tea to a request to TEA API. This can then be used to write the data on the page. 
