@@ -1,6 +1,11 @@
+// Global Variables
 var sGoogleAPIKey = "AIzaSyCbu_8RcyObinDL7LccNRfmOL48r1GqpiQ";
 var ReleventTea = ("")
 var AvailableGenres = document.getElementsByClassName("button")
+
+// Element Selectors
+var $bookInfo = document.querySelector("#book-info");
+var $bookDescription = document.querySelector('#book-description');
 
 const buttonPressed = e => {
     genre = (e.target.id);
@@ -146,26 +151,71 @@ function searchByGenre() {
         }
 
 //---------------------------------------------------------------------------readResultSingle
-function readResultSingle(oItem) {
-   
-    var sToDisplay = "";
-    sToDisplay += "Title: " + oItem.volumeInfo.title;               sToDisplay += '\n';            
-    sToDisplay += "Author: " + oItem.volumeInfo.authors;     sToDisplay += '\n';   
-    sToDisplay += "Publisher: " + oItem.volumeInfo.publisher;   sToDisplay += '\n';    
-    sToDisplay += "Length: " + oItem.volumeInfo.pageCount + " pages";  sToDisplay += '\n';    
-    sToDisplay += "Category: " + oItem.volumeInfo.categories;  sToDisplay += '\n';
+function readResultSingle(book) {
+    // Clear Book Info:
+    $bookDescription.innerHTML = "";
+
+
+    // Store book information in separate variables
+    let title = book.volumeInfo.title;
+    let author = book.volumeInfo.authors;
+    let publisher = book.volumeInfo.publisher;
+    let pageCount = book.volumeInfo.pageCount;
+    let description = book.volumeInfo.description;
+    let thumbnail = book.volumeInfo.imageLinks.thumbnail
+    let isbn = book.volumeInfo.industryIdentifiers[0].identifer;
+
+    // Replace Zoom Parameter in thumbnail link
+    thumbnail = thumbnail.replace("zoom=1","zoom=0");
+
+    // Render Content
+
+    // Render Title
+    var $bookTitle = document.createElement("h2");
+
+    $bookTitle.setAttribute("class","feature-title");
+    $bookTitle.textContent=title;
+
+    $bookDescription.appendChild($bookTitle);
+
+    // Render Author
+    var $bookAuthor = document.createElement("p");
+    $bookAuthor.innerHTML = `By: <span id="author-info">${author[0]}</span>`;
+
+    $bookDescription.appendChild($bookAuthor);
+
+    // Render Description
+    var $bookSummary = document.createElement("p");
+    
+    $bookSummary.textContent = description;
+    
+    $bookDescription.appendChild($bookSummary);
+
+    // Previous Rendering Code ------------------------------------------------------
+        
+        // var sToDisplay = "";
+        // sToDisplay += "Title: " + oItem.volumeInfo.title;               sToDisplay += '\n';            
+        // sToDisplay += "Author: " + oItem.volumeInfo.authors;     sToDisplay += '\n';   
+        // sToDisplay += "Publisher: " + oItem.volumeInfo.publisher;   sToDisplay += '\n';    
+        // sToDisplay += "Length: " + oItem.volumeInfo.pageCount + " pages";  sToDisplay += '\n';    
+        // sToDisplay += "Category: " + oItem.volumeInfo.categories;  sToDisplay += '\n';
         //sToDisplay += "Description: " + oItem.volumeInfo.description;  sToDisplay += '\n';    
-     
-   var screenBookArea = document.querySelector("#book-info");
-    screenBookArea.innerText = sToDisplay;
+        
+        // var screenBookArea = document.querySelector("#book-info");
+        // screenBookArea.innerText = sToDisplay;
 
 
-    var sThumbnail = oItem.volumeInfo.imageLinks.thumbnail;       //adding thumbnail for the book
-    var screenCoverArea = $("#book-cover");
-    screenCoverArea.attr('src', sThumbnail);//innerHTML = sThumbnail;
+        // var sThumbnail = oItem.volumeInfo.imageLinks.thumbnail;
+        // var screenCoverArea = $("#book-cover");
+        // screenCoverArea.attr('src', sThumbnail);
 
-    var sIdentifier = oItem.volumeInfo.industryIdentifiers[0].identifer;
-    sToDisplay += "ISBN: " + sIdentifier;  sToDisplay += '\n';
+        // var sIdentifier = oItem.volumeInfo.industryIdentifiers[0].identifer;
+        // sToDisplay += "ISBN: " + sIdentifier;  sToDisplay += '\n';
+
+    // End Previous Rendering Code ----------------------------------------------
+
+
+
 
 }
 
