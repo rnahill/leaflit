@@ -55,6 +55,12 @@ label {
     margin-left: 3%;
 }
 
+/* Classes - 11/2 AH*/
+.feature-title { /* could be used for book ttiles and tea names  */
+    font-weight: bold;
+    color: var(--red);
+} 
+
 
 
 /* ID's */
@@ -109,10 +115,17 @@ label {
     background-color: var(--white);
 }
 
+/* For author's name in book info - 11/2 AH */
+#author-info {
+    font-style: italic;
+}
+
 #tea-container {
     margin: 0%;
     background-color: var(--pink);
 }
 
-
+#book-description p {
+    font-size: 12px;
+}
 
