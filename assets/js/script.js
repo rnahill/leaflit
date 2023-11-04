@@ -362,20 +362,20 @@ function readResultSingle(book) {
     // End Previous Rendering Code ----------------------------------------------
 
 
-
+// ---------- Commenting out until my refactor and expansion is complete --------
     //AE added 
-    var iLen = arrAuthors.length;
-    if(iLen > 1) {
-        iLen -= 1;
-        sAuthor = arrAuthors[0] + " +" + String(iLen); 
-    } else {
-        sAuthor = arrAuthors[0] ;
-    }
+    // var iLen = arrAuthors.length;
+    // if(iLen > 1) {
+    //     iLen -= 1;
+    //     sAuthor = arrAuthors[0] + " +" + String(iLen); 
+    // } else {
+    //     sAuthor = arrAuthors[0] ;
+    // }
     
-    if (bAddToHistory) {
-        aStorageBook = {isbn: sIdentifierISBN, author: sAuthor, title: sTitle};
-        collectInfoForLS();
-    }
+    // if (bAddToHistory) {
+    //     aStorageBook = {isbn: sIdentifierISBN, author: sAuthor, title: sTitle};
+    //     collectInfoForLS();
+    // }
 }
 
 
