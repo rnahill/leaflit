@@ -1,5 +1,11 @@
 // Global Variables
 var sGoogleAPIKey = "AIzaSyCbu_8RcyObinDL7LccNRfmOL48r1GqpiQ";
+var ReleventTea = ("")
+var AvailableGenres = document.getElementsByClassName("button")
+
+// Element Selectors
+var $bookInfo = document.querySelector("#book-info");
+var $bookDescription = document.querySelector('#book-description');
 
 //AE added 
 var sLocalStorageName = "obj_history_book_teas";
