@@ -6,6 +6,7 @@ var AvailableGenres = document.getElementsByClassName("button")
 // Element Selectors
 var $bookInfo = document.querySelector("#book-info");
 var $bookDescription = document.querySelector('#book-description');
+var $bookStats = document.querySelector("#book-stats");
 
 //AE added 
 var sLocalStorageName = "obj_history_book_teas";
@@ -307,15 +308,19 @@ function searchByGenre() {
 function readResultSingle(book) {
     // Clear Book Info:
     $bookDescription.innerHTML = "";
+    $bookStats.innerHTML="";
+    console.log(book);
 
 
     // Store book information in separate variables
     let title = book.volumeInfo.title;
     let author = book.volumeInfo.authors;
     let publisher = book.volumeInfo.publisher;
+    let publishedDate = dayjs(book.volumeInfo.publishedDate).year();
     let pageCount = book.volumeInfo.pageCount;
     let description = book.volumeInfo.description;
-    let thumbnail = book.volumeInfo.imageLinks.thumbnail
+    let thumbnail = book.volumeInfo.imageLinks.thumbnail;
+    let infoLink = book.volumeInfo.infoLink;
     let isbn = book.volumeInfo.industryIdentifiers[0].identifer;
 
     // Replace Zoom Parameter in thumbnail link
@@ -366,6 +371,67 @@ function readResultSingle(book) {
         // sToDisplay += "ISBN: " + sIdentifier;  sToDisplay += '\n';
 
     // End Previous Rendering Code ----------------------------------------------
+
+    // Render Book Stats
+    let rows = [
+        {
+            label1: "Page Count:",
+            value1: pageCount,
+            label2: "Detailed Info:",
+            value2: infoLink
+        },
+        {
+            label1: "Publisher:",
+            value1: publisher,
+            label2: "Published:",
+            value2: publishedDate
+        }
+
+    ]
+
+    let $table = document.createElement("table");
+    for(let row of rows) {
+        // create row
+        let $row = document.createElement("tr");
+
+        // create cells
+        let $cellLabel1 = document.createElement("td");
+        $cellLabel1.setAttribute("class","is-borderless stat-label");
+        $cellLabel1.textContent = row.label1;
+        $row.appendChild($cellLabel1);
+
+        let $cellValue1 = document.createElement("td");
+        $cellValue1.setAttribute("class", "is-borderless");
+        $cellValue1.textContent = row.value1;
+        $row.appendChild($cellValue1);
+
+        // create cells
+        let $cellLabel2 = document.createElement("td");
+        $cellLabel2.setAttribute("class","is-borderless stat-label");
+        $cellLabel2.textContent = row.label2;
+        $row.appendChild($cellLabel2);
+
+        
+        let $cellValue2 = document.createElement("td");
+        // Create link for Detailed Info
+        if(row.label2 === "Detailed Info:") {
+            var $infoLink = document.createElement("a")
+            $infoLink.setAttribute("href", row.value2);
+            $infoLink.textContent="Google Books";
+            $cellValue2.appendChild($infoLink);
+        } else {
+            $cellValue2.textContent = row.value2;
+        }
+
+        $cellValue2.setAttribute("class", "is-borderless");
+        $row.appendChild($cellValue2);
+        // append to row
+        // append to table
+
+        $table.appendChild($row);
+    }
+
+    $bookStats.appendChild($table);
 
 
 // ---------- Commenting out until my refactor and expansion is complete --------
