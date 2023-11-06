@@ -338,111 +338,104 @@ function readResultSingle(book) {
 
     // Render Author
     var $bookAuthor = document.createElement("p");
-    $bookAuthor.innerHTML = `By: <span id="author-info">${author[0]}</span>`;
+    if(author) {
+        $bookAuthor.innerHTML = `By: <span id="author-info">${author[0]}</span>`;
+    } else {
+        $bookAuthor.textContent = "No author information."
+    }
+
 
     $bookDescription.appendChild($bookAuthor);
 
     // Render Description
     var $bookSummary = document.createElement("p");
-    
-    $bookSummary.textContent = description;
-    
+    if(description) {
+        $bookSummary.textContent = description;
+    } else {
+        $bookSummary.textContent = "No summary available.";
+    }    
     $bookDescription.appendChild($bookSummary);
 
-    // Previous Rendering Code ------------------------------------------------------
-        
-        // var sToDisplay = "";
-        // sToDisplay += "Title: " + oItem.volumeInfo.title;               sToDisplay += '\n';            
-        // sToDisplay += "Author: " + oItem.volumeInfo.authors;     sToDisplay += '\n';   
-        // sToDisplay += "Publisher: " + oItem.volumeInfo.publisher;   sToDisplay += '\n';    
-        // sToDisplay += "Length: " + oItem.volumeInfo.pageCount + " pages";  sToDisplay += '\n';    
-        // sToDisplay += "Category: " + oItem.volumeInfo.categories;  sToDisplay += '\n';
-        //sToDisplay += "Description: " + oItem.volumeInfo.description;  sToDisplay += '\n';    
-        
-        // var screenBookArea = document.querySelector("#book-info");
-        // screenBookArea.innerText = sToDisplay;
-
-
-        // var sThumbnail = oItem.volumeInfo.imageLinks.thumbnail;
-        // var screenCoverArea = $("#book-cover");
-        // screenCoverArea.attr('src', sThumbnail);
-
-        // var sIdentifier = oItem.volumeInfo.industryIdentifiers[0].identifer;
-        // sToDisplay += "ISBN: " + sIdentifier;  sToDisplay += '\n';
-
-    // End Previous Rendering Code ----------------------------------------------
-
     // Render Book Stats
-    let rows = [
-        {
-            label1: "Page Count:",
-            value1: pageCount,
-            label2: "Detailed Info:",
-            value2: infoLink
-        },
-        {
-            label1: "Publisher:",
-            value1: publisher,
-            label2: "Published:",
-            value2: publishedDate
-        }
-
-    ]
-
     let $table = document.createElement("table");
-    for(let row of rows) {
-        // create row
-        let $row = document.createElement("tr");
+    let $row1 = document.createElement("tr");
 
-        // create cells
-        let $cellLabel1 = document.createElement("td");
-        $cellLabel1.setAttribute("class","is-borderless stat-label");
-        $cellLabel1.textContent = row.label1;
-        $row.appendChild($cellLabel1);
+    let $pagesLabel = document.createElement("td");
+    $pagesLabel.setAttribute("class","is-borderless stat-label");
+    $pagesLabel.textContent = "Page Count:";
+    $row1.appendChild($pagesLabel);
 
-        let $cellValue1 = document.createElement("td");
-        $cellValue1.setAttribute("class", "is-borderless");
-        $cellValue1.textContent = row.value1;
-        $row.appendChild($cellValue1);
+    // Render Page Count
+    let $pageCount = document.createElement("td");
+    $pageCount.setAttribute("class","is-borderless");
+    if(pageCount) {
+        $pageCount.textContent = pageCount;
+    } else {
+        $pageCount.textContent = "Not Available";
+    }
+    $row1.appendChild($pageCount);
 
-        // create cells
-        let $cellLabel2 = document.createElement("td");
-        $cellLabel2.setAttribute("class","is-borderless stat-label");
-        $cellLabel2.textContent = row.label2;
-        $row.appendChild($cellLabel2);
+    let $infoLabel = document.createElement("td");
+    $infoLabel.setAttribute("class","is-borderless stat-label");
+    $infoLabel.textContent = "Detailed Info:";
+    $row1.appendChild($infoLabel);
 
-        
-        let $cellValue2 = document.createElement("td");
-        // Create link for Detailed Info
-        if(row.label2 === "Detailed Info:") {
-            var $infoLink = document.createElement("a")
-            $infoLink.setAttribute("href", row.value2);
-            $infoLink.textContent="Google Books";
-            $cellValue2.appendChild($infoLink);
-        } else {
-            $cellValue2.textContent = row.value2;
-        }
+    // Render book link
+    var $infoLink;
+    if (infoLink) {
+        $infoLink = document.createElement("a");
+        $infoLink.setAttribute("class", "is-borderless");
+        $infoLink.setAttribute("href", infoLink);
+        $infoLink.textContent="Google Books";
+    } else {
+        $infoLink = document.createElement("p");
+        $infoLink.setAttribute("class", "is-borderless");
+        $infoLink.textContent="Link not available";
+    }
+    $row1.appendChild($infoLink);
 
-        $cellValue2.setAttribute("class", "is-borderless");
-        $row.appendChild($cellValue2);
-        // append to row
-        // append to table
+    // Append row to table
+    $table.appendChild($row1);
 
-        $table.appendChild($row);
+    // Render second row
+    $row2 = document.createElement("tr");
+
+    // Render Publisher Info
+    let $publisherLabel = document.createElement("td");
+    $publisherLabel.setAttribute("class", "is-borderless stat-label");
+    $publisherLabel.textContent = "Publisher:";
+    $row2.appendChild($publisherLabel);
+
+    let $publisher = document.createElement("td");
+    $publisher.setAttribute("class", "is-borderless");
+    if(publisher) {
+        $publisher.textContent = publisher;
+    } else {
+        $publisher.textContent = "Not availabile"
+    }
+    $row2.appendChild($publisher);
+
+    // Render published info
+    let $publishedDateLabel = document.createElement("td");
+    $publishedDateLabel.setAttribute("class", "is-borderless stat-label");
+    $publishedDateLabel.textContent ="Published:";
+    $row2.appendChild($publishedDateLabel);
+
+    let $publishedDate = document.createElement("td");
+    $publishedDate.setAttribute("class", "borderless");
+    if(publishedDate) {
+        $publishedDate.textContent = dayjs(publishedDate).year();
+    } else {
+        $publishedDate.textContent = "Not available";
     }
 
+    $row2.appendChild($publishedDate);
+    $table.appendChild($row2);
     $bookStats.appendChild($table);
 
 
-// ---------- Commenting out until my refactor and expansion is complete --------
-    //AE added 
-    // var iLen = arrAuthors.length;
-    // if(iLen > 1) {
-    //     iLen -= 1;
-    //     sAuthor = arrAuthors[0] + " +" + String(iLen); 
-    // } else {
-    //     sAuthor = arrAuthors[0] ;
-    // }
+// ---------- TODO: Refactor local storage to match current function variables --------
+    // AH -- Removed if statements for author. Added flow control above.
     
     // if (bAddToHistory) {
     //     aStorageBook = {isbn: sIdentifierISBN, author: sAuthor, title: sTitle};
