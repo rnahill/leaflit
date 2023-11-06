@@ -6,6 +6,7 @@ var AvailableGenres = document.getElementsByClassName("button")
 // Element Selectors
 var $bookInfo = document.querySelector("#book-info");
 var $bookDescription = document.querySelector('#book-description');
+var $bookStats = document.querySelector("#book-stats");
 
 //AE added 
 var sLocalStorageName = "obj_history_book_teas";
@@ -307,15 +308,19 @@ function searchByGenre() {
 function readResultSingle(book) {
     // Clear Book Info:
     $bookDescription.innerHTML = "";
+    $bookStats.innerHTML="";
+    console.log(book);
 
 
     // Store book information in separate variables
     let title = book.volumeInfo.title;
     let author = book.volumeInfo.authors;
     let publisher = book.volumeInfo.publisher;
+    let publishedDate = dayjs(book.volumeInfo.publishedDate).year();
     let pageCount = book.volumeInfo.pageCount;
     let description = book.volumeInfo.description;
-    let thumbnail = book.volumeInfo.imageLinks.thumbnail
+    let thumbnail = book.volumeInfo.imageLinks.thumbnail;
+    let infoLink = book.volumeInfo.infoLink;
     let isbn = book.volumeInfo.industryIdentifiers[0].identifer;
 
     // Replace Zoom Parameter in thumbnail link
@@ -333,50 +338,104 @@ function readResultSingle(book) {
 
     // Render Author
     var $bookAuthor = document.createElement("p");
-    $bookAuthor.innerHTML = `By: <span id="author-info">${author[0]}</span>`;
+    if(author) {
+        $bookAuthor.innerHTML = `By: <span id="author-info">${author[0]}</span>`;
+    } else {
+        $bookAuthor.textContent = "No author information."
+    }
+
 
     $bookDescription.appendChild($bookAuthor);
 
     // Render Description
     var $bookSummary = document.createElement("p");
-    
-    $bookSummary.textContent = description;
-    
+    if(description) {
+        $bookSummary.textContent = description;
+    } else {
+        $bookSummary.textContent = "No summary available.";
+    }    
     $bookDescription.appendChild($bookSummary);
 
-    // Previous Rendering Code ------------------------------------------------------
-        
-        // var sToDisplay = "";
-        // sToDisplay += "Title: " + oItem.volumeInfo.title;               sToDisplay += '\n';            
-        // sToDisplay += "Author: " + oItem.volumeInfo.authors;     sToDisplay += '\n';   
-        // sToDisplay += "Publisher: " + oItem.volumeInfo.publisher;   sToDisplay += '\n';    
-        // sToDisplay += "Length: " + oItem.volumeInfo.pageCount + " pages";  sToDisplay += '\n';    
-        // sToDisplay += "Category: " + oItem.volumeInfo.categories;  sToDisplay += '\n';
-        //sToDisplay += "Description: " + oItem.volumeInfo.description;  sToDisplay += '\n';    
-        
-        // var screenBookArea = document.querySelector("#book-info");
-        // screenBookArea.innerText = sToDisplay;
+    // Render Book Stats
+    let $table = document.createElement("table");
+    let $row1 = document.createElement("tr");
+
+    let $pagesLabel = document.createElement("td");
+    $pagesLabel.setAttribute("class","is-borderless stat-label");
+    $pagesLabel.textContent = "Page Count:";
+    $row1.appendChild($pagesLabel);
+
+    // Render Page Count
+    let $pageCount = document.createElement("td");
+    $pageCount.setAttribute("class","is-borderless");
+    if(pageCount) {
+        $pageCount.textContent = pageCount;
+    } else {
+        $pageCount.textContent = "Not Available";
+    }
+    $row1.appendChild($pageCount);
+
+    let $infoLabel = document.createElement("td");
+    $infoLabel.setAttribute("class","is-borderless stat-label");
+    $infoLabel.textContent = "Detailed Info:";
+    $row1.appendChild($infoLabel);
+
+    // Render book link
+    var $infoLink;
+    if (infoLink) {
+        $infoLink = document.createElement("a");
+        $infoLink.setAttribute("class", "is-borderless");
+        $infoLink.setAttribute("href", infoLink);
+        $infoLink.textContent="Google Books";
+    } else {
+        $infoLink = document.createElement("p");
+        $infoLink.setAttribute("class", "is-borderless");
+        $infoLink.textContent="Link not available";
+    }
+    $row1.appendChild($infoLink);
+
+    // Append row to table
+    $table.appendChild($row1);
+
+    // Render second row
+    $row2 = document.createElement("tr");
+
+    // Render Publisher Info
+    let $publisherLabel = document.createElement("td");
+    $publisherLabel.setAttribute("class", "is-borderless stat-label");
+    $publisherLabel.textContent = "Publisher:";
+    $row2.appendChild($publisherLabel);
+
+    let $publisher = document.createElement("td");
+    $publisher.setAttribute("class", "is-borderless");
+    if(publisher) {
+        $publisher.textContent = publisher;
+    } else {
+        $publisher.textContent = "Not availabile"
+    }
+    $row2.appendChild($publisher);
+
+    // Render published info
+    let $publishedDateLabel = document.createElement("td");
+    $publishedDateLabel.setAttribute("class", "is-borderless stat-label");
+    $publishedDateLabel.textContent ="Published:";
+    $row2.appendChild($publishedDateLabel);
+
+    let $publishedDate = document.createElement("td");
+    $publishedDate.setAttribute("class", "borderless");
+    if(publishedDate) {
+        $publishedDate.textContent = dayjs(publishedDate).year();
+    } else {
+        $publishedDate.textContent = "Not available";
+    }
+
+    $row2.appendChild($publishedDate);
+    $table.appendChild($row2);
+    $bookStats.appendChild($table);
 
 
-        // var sThumbnail = oItem.volumeInfo.imageLinks.thumbnail;
-        // var screenCoverArea = $("#book-cover");
-        // screenCoverArea.attr('src', sThumbnail);
-
-        // var sIdentifier = oItem.volumeInfo.industryIdentifiers[0].identifer;
-        // sToDisplay += "ISBN: " + sIdentifier;  sToDisplay += '\n';
-
-    // End Previous Rendering Code ----------------------------------------------
-
-
-// ---------- Commenting out until my refactor and expansion is complete --------
-    //AE added 
-    // var iLen = arrAuthors.length;
-    // if(iLen > 1) {
-    //     iLen -= 1;
-    //     sAuthor = arrAuthors[0] + " +" + String(iLen); 
-    // } else {
-    //     sAuthor = arrAuthors[0] ;
-    // }
+// ---------- TODO: Refactor local storage to match current function variables --------
+    // AH -- Removed if statements for author. Added flow control above.
     
     // if (bAddToHistory) {
     //     aStorageBook = {isbn: sIdentifierISBN, author: sAuthor, title: sTitle};
