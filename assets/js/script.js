@@ -13,6 +13,7 @@ var sLocalStorageName = "obj_history_book_teas";
 var aStorageBook = {};
 var aStorageTea = {};
 var arrSearchCollections = [];
+var bAddToStorage = false;
 
 var ReleventTea = ("")
 var AvailableGenres = document.getElementsByClassName("button")
@@ -30,6 +31,10 @@ const buttonPressed = e => {
   for (genre of AvailableGenres) {
     genre.addEventListener("click", buttonPressed);
   }
+
+//-----------------------------------------------------------------START  
+loadPage();
+
 
 //---------------------------------------------------------------GetTea
 async function GetTea(){
@@ -75,15 +80,11 @@ default:
     ReleventTea = ("English Breakfast");
 }}
 
-//-----------------------------------------------------------------START  
-loadPage();
-
-
-GetTea();
 
 // converts the relevent Tea to a request to TEA API. This can then be used to write the data on the page. 
 //-----------------------------------------------------------------loadpage()
 function loadPage() {
+       // AE - this is just for cleaning local storage:         cleanLocalStorage(); return;
     var search_btn = document.querySelector("#search-btn");
     search_btn.addEventListener("click", doSearchBook);
     search_btn.type="button";
@@ -101,6 +102,7 @@ function loadPage() {
 function doSearchBook() {
     aStorageBook = {};
     aStorageTea = {};
+    bAddToStorage = true;
     searchByTypedText();
     GetTea();
 }
@@ -109,6 +111,7 @@ function doSearchBook() {
 function doSearchGanre() {
     aStorageBook = {};
     aStorageTea = {};
+    bAddToStorage = true;
     searchByGenre();
     GetTea();   
 }
@@ -116,10 +119,10 @@ function doSearchGanre() {
 //-----------------------------------------------------------------------------------doSearchHistory
 function doSearchHistory() {
     var sISBN = $(this).attr('id');
-
     aStorageBook = {};
     aStorageTea = {};
-    
+    bAddToStorage = false;
+
     var author = "";
     var title = "";
     var teaName = "";
@@ -146,7 +149,6 @@ function doSearchHistory() {
 //-------------------------------------------------------------------------------------searchBookByISBN
 
 function searchBookByISBN(sISBN, author, title) {
-
     var sGoogleURL = "https://www.googleapis.com/books/v1/volumes?q=";
     //var sKeySearch = "isbn" + "%" + sISBN; 
     var sKeySearch = "isbn" + "%3D" + sISBN; 
@@ -158,8 +160,13 @@ function searchBookByISBN(sISBN, author, title) {
             return res.json();
         })
         .then(function(result) {
-            var resultSingle = result.items[0];            
-            readResultSingle(resultSingle, false);
+            try {
+                var resultSingle = result.items[0];            
+                readResultSingle(resultSingle, false); 
+            } catch (error) {
+                console.log(error);
+            }
+            
         }),
         function(error) {
             console.log(error);
@@ -321,10 +328,17 @@ function readResultSingle(book) {
     let description = book.volumeInfo.description;
     let thumbnail = book.volumeInfo.imageLinks.thumbnail;
     let infoLink = book.volumeInfo.infoLink;
-    let isbn = book.volumeInfo.industryIdentifiers[0].identifer;
+    let isbn = book.volumeInfo.industryIdentifiers[1].identifier;
 
     // Replace Zoom Parameter in thumbnail link
-    thumbnail = thumbnail.replace("zoom=1","zoom=0");
+    //AE - thumbnail address cannot be changed as Google has zoom=1 in address
+    //AE - If we want to set zoom to 90% (or so), I strongly believe that we have to do it through css
+    //AE removed - thumbnail = thumbnail.replace("zoom=1","zoom='90%'");
+
+
+    // AE - Inserted thumbnail for book cover
+    var screenCoverArea = $("#book-cover");
+    screenCoverArea.attr('src', thumbnail);
 
     // Render Content
 
@@ -437,10 +451,11 @@ function readResultSingle(book) {
 // ---------- TODO: Refactor local storage to match current function variables --------
     // AH -- Removed if statements for author. Added flow control above.
     
-    // if (bAddToHistory) {
-    //     aStorageBook = {isbn: sIdentifierISBN, author: sAuthor, title: sTitle};
-    //     collectInfoForLS();
-    // }
+    // AE - Changed ISBN variable, author variable (for a single author only), and title variable
+    if (bAddToStorage && isbn != undefined) {
+        aStorageBook = {isbn: isbn, author: author[0], title: title};
+        collectInfoForLS();
+    }
 }
 
 
