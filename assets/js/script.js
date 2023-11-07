@@ -47,6 +47,11 @@ async function GetTea(){
     document.getElementById("tea-desc").innerText = (SingleTeaEntry[1].description)
     document.getElementById("tea-image").setAttribute("src",SingleTeaEntry[1].image)
     console.log(TeaName)
+
+    //AE - this is for TESTING PURPOSES ONLY for adding a button dynamically
+    //After Local Storage is updated, this can be removed
+    aStorageTea = {id: "", teaName: TeaName, teaFlavor: ""};
+    collectInfoForLS();
 }
 
 
@@ -160,8 +165,8 @@ function doSearchHistory() {
 
 function searchBookByISBN(sISBN, author, title) {
     var sGoogleURL = "https://www.googleapis.com/books/v1/volumes?q=";
-    //var sKeySearch = "isbn" + "%" + sISBN; 
-    var sKeySearch = "isbn" + "%3D" + sISBN; 
+    //var sKeySearch = "isbn" + "%" + sISBN;     var sKeySearch = "isbn" + "%3D" + sISBN; 
+    var sKeySearch = "isbn" + ":" + sISBN; //AE Changed - fixed ISBN Problem
     var sMyKey = "&key=" + sGoogleAPIKey;
     var sFetchURL = sGoogleURL + sKeySearch + sMyKey;
 
