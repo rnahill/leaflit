@@ -1,7 +1,7 @@
 // Global Variables
 var sGoogleAPIKey = "AIzaSyCG69hbyixMVZjNKgnDsUu3mkk8yq3ez0o";
-var ReleventTea = ("");
-var AvailableGenres = document.getElementsByClassName("button");
+var ReleventTea = ("")
+var AvailableGenres = document.getElementsByClassName("button")
 
 // Element Selectors
 var $bookInfo = document.querySelector("#book-info");
@@ -24,7 +24,6 @@ var $bookDescription = document.querySelector('#book-description');
 
 const buttonPressed = e => {
     genre = (e.target.id);
-    console.log(genre);
     decideTea(genre) 
   }
 
@@ -47,6 +46,7 @@ async function GetTea(){
 
     collectInfoForLS();
 }
+
 
 //----------------------------------------------------------------- decideTea
 function decideTea(){
@@ -114,7 +114,6 @@ function doSearchBook() {
     aStorageTea = {};
     bAddToStorage = true;
     searchByTypedText();
-    GetTea();
 }
 
 //----------------------------------------------------------------------------------- doSearchGanre
@@ -122,8 +121,7 @@ function doSearchGanre() {
     aStorageBook = {};
     aStorageTea = {};
     bAddToStorage = true;
-    searchByGenre();
-    GetTea();   
+    searchByGenre(); 
 }
 
 //-----------------------------------------------------------------------------------doSearchHistory
