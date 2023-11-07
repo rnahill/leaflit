@@ -1,7 +1,7 @@
 // Global Variables
-var sGoogleAPIKey = "AIzaSyCbu_8RcyObinDL7LccNRfmOL48r1GqpiQ";
-var ReleventTea = ("")
-var AvailableGenres = document.getElementsByClassName("button")
+var sGoogleAPIKey = "AIzaSyCG69hbyixMVZjNKgnDsUu3mkk8yq3ez0o";
+var ReleventTea = ("");
+var AvailableGenres = document.getElementsByClassName("button");
 
 // Element Selectors
 var $bookInfo = document.querySelector("#book-info");
@@ -44,6 +44,8 @@ async function GetTea(){
     var activeTea = await TeaQuery.json();
     var TeaEntries = Object.entries(activeTea[0].types);
     var Entry = TeaEntries[Math.floor(Math.random() * TeaEntries.length)]
+
+    collectInfoForLS();
 }
 
 //----------------------------------------------------------------- decideTea
@@ -378,24 +380,53 @@ function readResultSingle(book) {
     }    
     $bookDescription.appendChild($bookSummary);
 
+// ----------------- Left Column ------------------ \\
     // Render Book Stats
-    let $table = document.createElement("table");
-    let $row1 = document.createElement("tr");
-
-    let $pagesLabel = document.createElement("td");
-    $pagesLabel.setAttribute("class","is-borderless stat-label");
-    $pagesLabel.textContent = "Page Count:";
-    $row1.appendChild($pagesLabel);
+    let $leftColumn = document.createElement("div")
+    $leftColumn.setAttribute("class","column is-flex is-flex-direction-row");
 
     // Render Page Count
-    let $pageCount = document.createElement("td");
-    $pageCount.setAttribute("class","is-borderless");
+    let $pagesLabel = document.createElement("span");
+    $pagesLabel.setAttribute("class","stat-label");
+    $pagesLabel.textContent = "Page Count:";
+    $leftColumn.appendChild($pagesLabel);
+    
+    let $pageCount = document.createElement("p");
     if(pageCount) {
         $pageCount.textContent = pageCount;
     } else {
         $pageCount.textContent = "Not Available";
+    } 
+    $leftColumn.appendChild($pageCount);
+
+    // Render Publisher Info
+    let $publisherLabel = document.createElement("span");
+    $publisherLabel.setAttribute("class", "stat-label");
+    $publisherLabel.textContent = "Publisher:";
+    $leftColumn.appendChild($publisherLabel);
+
+    let $publisher = document.createElement("td");
+    $publisher.setAttribute("class", "is-borderless");
+    if(publisher) {
+        $publisher.textContent = publisher;
+    } else {
+        $publisher.textContent = "Not availabile"
     }
-    $row1.appendChild($pageCount);
+    $leftColumn.appendChild($publisher);
+
+// ----------------- Right Column ------------------ \\
+    let $rightColumn= document.createElement("div");
+    $rightColumn.setAttribute("class","column is-flex column is-flex is-flex-direction-row");
+
+
+
+    // Append to description
+    $bookStats.appendChild($leftColumn);
+    $bookStats.appendChild($rightColumn);
+
+
+
+
 
     let $infoLabel = document.createElement("td");
     $infoLabel.setAttribute("class","is-borderless stat-label");
@@ -422,20 +453,9 @@ function readResultSingle(book) {
     // Render second row
     $row2 = document.createElement("tr");
 
-    // Render Publisher Info
-    let $publisherLabel = document.createElement("td");
-    $publisherLabel.setAttribute("class", "is-borderless stat-label");
-    $publisherLabel.textContent = "Publisher:";
-    $row2.appendChild($publisherLabel);
 
-    let $publisher = document.createElement("td");
-    $publisher.setAttribute("class", "is-borderless");
-    if(publisher) {
-        $publisher.textContent = publisher;
-    } else {
-        $publisher.textContent = "Not availabile"
-    }
-    $row2.appendChild($publisher);
+
+
 
     // Render published info
     let $publishedDateLabel = document.createElement("td");
