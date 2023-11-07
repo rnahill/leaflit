@@ -15,9 +15,9 @@
 
 
 /* Element Selectors */
-body {
+html {
     background-color: var(--blue);
-    min-height: 100vh;
+    min-height: 100% !important;
     
 }
 
@@ -33,7 +33,7 @@ section {
 }
 
 aside {
-    margin-top: 1%;
+    margin: 1%;
     height: 75vh;
 }
 
@@ -130,22 +130,23 @@ tr {
     background-color: var(--white);
 }
 
-#book-container {
-    margin: 0%;
-    background-color: var(--white);
-}
-
 /* For author's name in book info - 11/2 AH */
 #author-info {
     font-style: italic;
 }
 
-#tea-container {
-    margin: 0%;
-    background-color: var(--pink);
-}
-
 #book-description p {
     font-size: 12px;
 }
+
+#book-container {
+    margin: 0% 0% 1% 0%;
+    background-color: var(--white);
+}
+
+#tea-container {
+    margin: 0% 0% 1% 0%;
+    background-color: var(--pink);
+}
+
 
