@@ -257,6 +257,7 @@ function addNewHistoryButton(){
     var btn = document.createElement('BUTTON');
     btn.id = aStorageBook.isbn;
     btn.setAttribute("class", "isbn_search");
+    
     var sButtonText = aStorageBook.title + " by " + aStorageBook.author + " with tea " + aStorageTea.teaName
     var tNode = document.createTextNode(sButtonText);
     btn.appendChild(tNode);
