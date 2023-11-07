@@ -73,6 +73,7 @@ label {
     /* For some reason text-align:right is being overwritten. Does work if it's styled directly in HTML. */
     text-align: right !important;
     font-weight: bold;
+    font-size: 12px;
 }
 
 /* Classes - 11/2 AH*/
@@ -133,6 +134,21 @@ label {
 #book-container {
     margin: 0%;
     background-color: var(--white);
+}
+
+#book-stats {
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: left;
+    /* border: red 2px solid; */
+    width: 30%;
+}
+
+#book-stats div {
+    display:flex;
+    /* border:blue 2px dashed; */
 }
 
 /* For author's name in book info - 11/2 AH */

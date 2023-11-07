@@ -338,7 +338,59 @@ function readResultSingle(book) {
     let infoLink = book.volumeInfo.infoLink;
     let isbn = book.volumeInfo.industryIdentifiers[1].identifier;
 
-    // Replace Zoom Parameter in thumbnail link
+    // Set book info values based on data completeness
+    let missingData = "Not Available";
+    author = author  ? author : missingData;
+    publisher = publisher ? publisher : missingData;
+    pageCount = pageCount ? pageCount : missingData;
+    description = description ? description : missingData;
+
+    let stats = [
+        {
+            label: "Page Count: ",
+            value: pageCount
+        },
+        {
+            label: "Publisher: ",
+            value: publisher
+        },
+        {
+            label: "Published: ",
+            value: publishedDate
+        },
+        {
+            label: "Detailed Info: ",
+            value: infoLink
+        }
+    ]
+
+    // Generate Book stats
+    var $value;
+    for (let stat of stats) {
+        // create div
+        let $tempDiv = document.createElement('div');
+
+        // append span and p tag if not a link
+        let $label = document.createElement("span");
+        $label.setAttribute("class", "stat-label");
+        $label.textContent = stat.label;
+
+        if(stat.label === "Detailed Info: ") {
+            // create link
+            $value = document.createElement("a");
+            $value.setAttribute("href",stat.value);
+            $value.textContent = "Google Books";
+        } else {
+            $value = document.createElement("p");
+            $value.textContent = stat.value;
+        }
+
+        $tempDiv.appendChild($label);
+        $tempDiv.appendChild($value);
+        $bookStats.appendChild($tempDiv);
+
+        // append to $bookStatss
+    }
     //AE - thumbnail address cannot be changed as Google has zoom=1 in address
     //AE - If we want to set zoom to 90% (or so), I strongly believe that we have to do it through css
     //AE removed - thumbnail = thumbnail.replace("zoom=1","zoom='90%'");
@@ -348,7 +400,6 @@ function readResultSingle(book) {
     var screenCoverArea = $("#book-cover");
     screenCoverArea.attr('src', thumbnail);
 
-    // Render Content
 
     // Render Title
     var $bookTitle = document.createElement("h2");
@@ -377,101 +428,6 @@ function readResultSingle(book) {
         $bookSummary.textContent = "No summary available.";
     }    
     $bookDescription.appendChild($bookSummary);
-
-// ----------------- Left Column ------------------ \\
-    // Render Book Stats
-    let $leftColumn = document.createElement("div")
-    $leftColumn.setAttribute("class","column is-flex is-flex-direction-row");
-
-    // Render Page Count
-    let $pagesLabel = document.createElement("span");
-    $pagesLabel.setAttribute("class","stat-label");
-    $pagesLabel.textContent = "Page Count:";
-    $leftColumn.appendChild($pagesLabel);
-    
-    let $pageCount = document.createElement("p");
-    if(pageCount) {
-        $pageCount.textContent = pageCount;
-    } else {
-        $pageCount.textContent = "Not Available";
-    } 
-    $leftColumn.appendChild($pageCount);
-
-    // Render Publisher Info
-    let $publisherLabel = document.createElement("span");
-    $publisherLabel.setAttribute("class", "stat-label");
-    $publisherLabel.textContent = "Publisher:";
-    $leftColumn.appendChild($publisherLabel);
-
-    let $publisher = document.createElement("td");
-    $publisher.setAttribute("class", "is-borderless");
-    if(publisher) {
-        $publisher.textContent = publisher;
-    } else {
-        $publisher.textContent = "Not availabile"
-    }
-    $leftColumn.appendChild($publisher);
-
-// ----------------- Right Column ------------------ \\
-    let $rightColumn= document.createElement("div");
-    $rightColumn.setAttribute("class","column is-flex column is-flex is-flex-direction-row");
-
-
-
-    // Append to description
-    $bookStats.appendChild($leftColumn);
-    $bookStats.appendChild($rightColumn);
-
-
-
-
-
-    let $infoLabel = document.createElement("td");
-    $infoLabel.setAttribute("class","is-borderless stat-label");
-    $infoLabel.textContent = "Detailed Info:";
-    $row1.appendChild($infoLabel);
-
-    // Render book link
-    var $infoLink;
-    if (infoLink) {
-        $infoLink = document.createElement("a");
-        $infoLink.setAttribute("class", "is-borderless");
-        $infoLink.setAttribute("href", infoLink);
-        $infoLink.textContent="Google Books";
-    } else {
-        $infoLink = document.createElement("p");
-        $infoLink.setAttribute("class", "is-borderless");
-        $infoLink.textContent="Link not available";
-    }
-    $row1.appendChild($infoLink);
-
-    // Append row to table
-    $table.appendChild($row1);
-
-    // Render second row
-    $row2 = document.createElement("tr");
-
-
-
-
-
-    // Render published info
-    let $publishedDateLabel = document.createElement("td");
-    $publishedDateLabel.setAttribute("class", "is-borderless stat-label");
-    $publishedDateLabel.textContent ="Published:";
-    $row2.appendChild($publishedDateLabel);
-
-    let $publishedDate = document.createElement("td");
-    $publishedDate.setAttribute("class", "borderless");
-    if(publishedDate) {
-        $publishedDate.textContent = dayjs(publishedDate).year();
-    } else {
-        $publishedDate.textContent = "Not available";
-    }
-
-    $row2.appendChild($publishedDate);
-    $table.appendChild($row2);
-    $bookStats.appendChild($table);
 
 
 // ---------- TODO: Refactor local storage to match current function variables --------
