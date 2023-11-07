@@ -25,7 +25,7 @@ var $bookDescription = document.querySelector('#book-description');
 const buttonPressed = e => {
     genre = (e.target.id);
     console.log(genre);
-    return genre; 
+    decideTea(genre) 
   }
 
   for (genre of AvailableGenres) {
@@ -38,46 +38,54 @@ loadPage();
 
 //---------------------------------------------------------------GetTea
 async function GetTea(){
-
     // get the tea from https://boonakitea.cyclic.app/ 
-    var TeaResponse = await fetch("https://boonakitea.cyclic.app/api/teas/" + ReleventTea);
-    
-//  turn the tea to json and give it a variable, this can be used as the "currently displayed" Tea and we can re-use the variable later in search history. 
-    var activeTea = TeaResponse.json();
-// logging both temporarily. 
-    console.log(TeaResponse);
-    console.log(activeTea);
-
-    var  teaID = "012";
-    var teaName = "Earl Gray";
-    var teaFlavor = "Yummy";
-    aStorageTea = {id: teaID, teaName: teaName, teaFlavor: teaFlavor};
-    collectInfoForLS();
+    var TeaQuery = await fetch("https://boonakitea.cyclic.app/api/teas/" + ReleventTea);
+//  process the tea response, first to json then selecting a random tea from the available selection.  
+    var activeTea = await TeaQuery.json();
+    var TeaEntries = Object.entries(activeTea[0].types);
+    var Entry = TeaEntries[Math.floor(Math.random() * TeaEntries.length)]
 }
 
 //----------------------------------------------------------------- decideTea
 function decideTea(){
 switch (genre){
 case genre = ("fantasy"): 
-    ReleventTea = ("Earl Grey");
+    ReleventTea = ("Black");
+    console.log(ReleventTea);
+    GetTea()
     break;
  case genre = ("science-fiction"):
-    ReleventTea = ("Wulong");
+    ReleventTea = ("white");
+    console.log(ReleventTea);
+    GetTea()
     break;
 case genre = ("mystery"):
     ReleventTea = ("White");
+    console.log(ReleventTea);
+    GetTea()
     break;
 case genre = ("romance"):
-    ReleventTea = ("Matcha");
+    ReleventTea = ("green");
+    console.log(ReleventTea);
+    GetTea()
     break;
 case genre = ("contemporary"):
     ReleventTea = ("Green");
+    console.log(ReleventTea);
+    GetTea()
     break;
 case genre = ("non-fiction"):
-    ReleventTea = ("Russian Caravan");
+    ReleventTea = ("black");
+    console.log(ReleventTea);
+    GetTea()
+    break;
+    // added case to prevent the search form from calling tea api.
+case genre = ("search-form"):
     break;
 default:
-    ReleventTea = ("English Breakfast");
+    ReleventTea = ("black");
+    console.log(ReleventTea);
+    GetTea()
 }}
 
 
