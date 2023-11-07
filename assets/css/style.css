@@ -55,6 +55,32 @@ label {
     margin-left: 3%;
 }
 
+tr {
+    font-size: 12px;
+}
+
+.table {
+    background-color: transparent;
+}
+
+.table td {
+    border: none;
+    /* Trying to space out the left and right columns in this table */
+    padding: 0 10px;
+}
+
+.stat-label {
+    /* For some reason text-align:right is being overwritten. Does work if it's styled directly in HTML. */
+    text-align: right;
+    font-weight: bold;
+}
+
+/* Classes - 11/2 AH*/
+.feature-title { /* could be used for book ttiles and tea names  */
+    font-weight: bold;
+    color: var(--red);
+} 
+
 
 
 /* ID's */
@@ -109,10 +135,17 @@ label {
     background-color: var(--white);
 }
 
+/* For author's name in book info - 11/2 AH */
+#author-info {
+    font-style: italic;
+}
+
 #tea-container {
     margin: 0%;
     background-color: var(--pink);
 }
 
-
+#book-description p {
+    font-size: 12px;
+}
 

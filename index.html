@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <link rel="stylesheet" href="./assets/css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,6 +36,7 @@
             <label for="book-search" class="m-1">Search for a book:</label><br>
             <input class="input is-rounded mt-2" type="text" id="search-input" placeholder="Book name">
             <button class="button m-3" id="search-btn">Search</button>
+            <button onclick = "cleanLocalStorage()" > Clear Search History </button> <!-- AE 11/6 Added ID -->
           </form>
         </aside>
         <section class="column is-four-fifths is-flex is-flex-wrap-wrap is-align-content-space-around">
@@ -77,9 +79,15 @@
                     <!-- The image source should have the zoom parameter removed or zoom=0 -->
                     <img id="book-cover" src="https://placehold.co/175x265" alt="placeholder image" style="max-height: 95%">
                 </div>
-                <div id="book-info" class ="column">
+                <div id="book-info" class ="column columns">
+                  <div id="book-description" class="column">
                     <!-- Book Info Goes Here -->
+                  </div>
+                  <div id="book-stats" class="column">
+                    <!-- Book stats table renders here -->
+                  </div>
                 </div>
+   
             </div>
             <div id="tea-container" class="columns column is-full box box-background-color" style="height: 35%;">
                 <div class ="is-2 column is-flex is-justify-content-center is-align-items-center">
