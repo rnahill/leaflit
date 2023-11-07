@@ -112,7 +112,6 @@ function doSearchBook() {
     aStorageTea = {};
     bAddToStorage = true;
     searchByTypedText();
-    GetTea();
 }
 
 //----------------------------------------------------------------------------------- doSearchGanre
@@ -121,7 +120,6 @@ function doSearchGanre() {
     aStorageTea = {};
     bAddToStorage = true;
     searchByGenre();
-    GetTea();   
 }
 
 //-----------------------------------------------------------------------------------doSearchHistory
