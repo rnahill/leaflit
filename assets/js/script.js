@@ -1,5 +1,5 @@
 // Global Variables
-var sGoogleAPIKey = "AIzaSyCbu_8RcyObinDL7LccNRfmOL48r1GqpiQ";
+var sGoogleAPIKey = "AIzaSyCG69hbyixMVZjNKgnDsUu3mkk8yq3ez0o";
 var ReleventTea = ("")
 var AvailableGenres = document.getElementsByClassName("button")
 
@@ -24,7 +24,6 @@ var $bookDescription = document.querySelector('#book-description');
 
 const buttonPressed = e => {
     genre = (e.target.id);
-    console.log(genre);
     decideTea(genre) 
   }
 
@@ -43,8 +42,13 @@ async function GetTea(){
 //  process the tea response, first to json then selecting a random tea from the available selection.  
     var activeTea = await TeaQuery.json();
     var TeaEntries = Object.entries(activeTea[0].types);
-    var Entry = TeaEntries[Math.floor(Math.random() * TeaEntries.length)]
+    var SingleTeaEntry = TeaEntries[Math.floor(Math.random() * TeaEntries.length)]
+    var TeaName = document.getElementById("tea-name").innerText = (SingleTeaEntry[0])
+    document.getElementById("tea-desc").innerText = (SingleTeaEntry[1].description)
+    document.getElementById("tea-image").setAttribute("src",SingleTeaEntry[1].image)
+    console.log(TeaName)
 }
+
 
 //----------------------------------------------------------------- decideTea
 function decideTea(){
@@ -119,7 +123,7 @@ function doSearchGanre() {
     aStorageBook = {};
     aStorageTea = {};
     bAddToStorage = true;
-    searchByGenre();
+    searchByGenre(); 
 }
 
 //-----------------------------------------------------------------------------------doSearchHistory
