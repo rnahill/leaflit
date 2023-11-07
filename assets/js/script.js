@@ -1,5 +1,5 @@
 // Global Variables
-var sGoogleAPIKey = "AIzaSyCG69hbyixMVZjNKgnDsUu3mkk8yq3ez0o";
+var sGoogleAPIKey = "AIzaSyCG69hbyixMVZj" + "NKgnDsUu3mkk8yq3ez0o";
 var ReleventTea = ("")
 var AvailableGenres = document.getElementsByClassName("button")
 
@@ -18,10 +18,6 @@ var bAddToStorage = false;
 var ReleventTea = ("")
 var AvailableGenres = document.getElementsByClassName("button")
 
-// Element Selectors
-var $bookInfo = document.querySelector("#book-info");
-var $bookDescription = document.querySelector('#book-description');
-
 const buttonPressed = e => {
     genre = (e.target.id);
     decideTea(genre) 
@@ -31,11 +27,11 @@ const buttonPressed = e => {
     genre.addEventListener("click", buttonPressed);
   }
 
-//-----------------------------------------------------------------START  
-loadPage();
-
-
-//---------------------------------------------------------------GetTea
+/* ----------     API CALLS     ---------- *\
+This section holds the functions that make fetch
+calls to Google Books API and the Boonakitea API.
+*/
+//------------------------------- GetTea
 async function GetTea(){
     // get the tea from https://boonakitea.cyclic.app/ 
     var TeaQuery = await fetch("https://boonakitea.cyclic.app/api/teas/" + ReleventTea);
@@ -47,10 +43,112 @@ async function GetTea(){
     document.getElementById("tea-desc").innerText = (SingleTeaEntry[1].description)
     document.getElementById("tea-image").setAttribute("src",SingleTeaEntry[1].image)
     console.log(TeaName)
+
+    //AE - this is for TESTING PURPOSES ONLY for adding a button dynamically
+    //After Local Storage is updated, this can be removed
+    aStorageTea = {id: "", teaName: TeaName, teaFlavor: ""};
+    collectInfoForLS();
+}
+//------------------------------- doSearchGanre
+function doSearchGenre(event) {
+    // console.log(event.target);
+    aStorageBook = {};
+    aStorageTea = {};
+    bAddToStorage = true;
+
+    // Fixing Error. Search always passes "Object" - AH 11/6
+    var sSubject= event.target.id;
+    console.log(sSubject);
+
+    var sGoogleURL = "https://www.googleapis.com/books/v1/volumes?q=";
+    var sKeySearch = "subject" + ":" + sSubject; 
+    var sMyKey = "&key=" + sGoogleAPIKey;
+    var sFetchURL = sGoogleURL + sKeySearch + sMyKey;
+
+    fetch(sFetchURL)
+        .then(function(res) {
+            return res.json();
+        })
+        .then(function(result) {
+            var oItems = result.items;
+            // Error Handling
+            try {
+                var iLength = oItems.length;
+            } catch(e) {
+                console.log(e)
+                // doSearchGenre(event);
+                return;
+            }
+            
+            var iRandomIndex = getRandomNumber(iLength);
+            var resultSingle = oItems[iRandomIndex];
+            //readResults(result);
+            readResultSingle(resultSingle, true);
+        }),
+        function(error) {
+            console.log(error);
+        };
+    
 }
 
+//------------------------------- searchBookByISBN
+function searchBookByISBN(sISBN, author, title) {
+    var sGoogleURL = "https://www.googleapis.com/books/v1/volumes?q=";
+    //var sKeySearch = "isbn" + "%" + sISBN;     var sKeySearch = "isbn" + "%3D" + sISBN; 
+    var sKeySearch = "isbn" + ":" + sISBN; //AE Changed - fixed ISBN Problem
+    var sMyKey = "&key=" + sGoogleAPIKey;
+    var sFetchURL = sGoogleURL + sKeySearch + sMyKey;
 
-//----------------------------------------------------------------- decideTea
+    fetch(sFetchURL)
+        .then(function(res) {
+            return res.json();
+        })
+        .then(function(result) {
+            try {
+                var resultSingle = result.items[0];            
+                readResultSingle(resultSingle, false); 
+            } catch (error) {
+                console.log(error);
+            }
+            
+        }),
+        function(error) {
+            console.log(error);
+        };  
+}
+
+//--------------------------- searchByTypedText
+function  searchByTypedText() {
+
+    var selectedText = "title"; //["title" ,  "author", "publisher"]
+    selectedText = "in" + selectedText;
+
+    var oTypedText = document.querySelector("#search-input");
+    var typedText = oTypedText.value;
+    oTypedText.value = "";
+
+    var sGoogleURL =     "https://www.googleapis.com/books/v1/volumes?q=";
+    var sKeySearch = selectedText  + ":" + typedText ;      
+    var sMyKey = "&key=" + sGoogleAPIKey;
+    var sFetchURL = sGoogleURL + sKeySearch + sMyKey;
+
+    fetch(sFetchURL)
+        .then(function(res) {
+        return res.json();
+        })
+        .then(function(result) {
+        var resultSingle = result.items[0];
+        readResultSingle(resultSingle, true);
+        }),
+        function(error) {
+        console.log(error);
+        };
+}
+
+/* ----------     END API CALLS     ---------- */
+
+
+//------------------------------- decideTea
 function decideTea(){
 switch (genre){
 case genre = ("fantasy"): 
@@ -104,7 +202,7 @@ function loadPage() {
     var arrButtonsIDs = ["#fantasy","#science-fiction","#mystery","#romance","#contemporary","#non-fiction"];
     for (i in arrButtonsIDs) {
         var btn = document.querySelector(arrButtonsIDs[i]);
-        btn .addEventListener("click", doSearchGanre);
+        btn .addEventListener("click", doSearchGenre);
     }
 
     createLocalStorageButtons();
@@ -118,13 +216,8 @@ function doSearchBook() {
     searchByTypedText();
 }
 
-//----------------------------------------------------------------------------------- doSearchGanre
-function doSearchGanre() {
-    aStorageBook = {};
-    aStorageTea = {};
-    bAddToStorage = true;
-    searchByGenre(); 
-}
+
+
 
 //-----------------------------------------------------------------------------------doSearchHistory
 function doSearchHistory() {
@@ -156,32 +249,7 @@ function doSearchHistory() {
     GetTea();   
 }
 
-//-------------------------------------------------------------------------------------searchBookByISBN
 
-function searchBookByISBN(sISBN, author, title) {
-    var sGoogleURL = "https://www.googleapis.com/books/v1/volumes?q=";
-    //var sKeySearch = "isbn" + "%" + sISBN; 
-    var sKeySearch = "isbn" + "%3D" + sISBN; 
-    var sMyKey = "&key=" + sGoogleAPIKey;
-    var sFetchURL = sGoogleURL + sKeySearch + sMyKey;
-
-    fetch(sFetchURL)
-        .then(function(res) {
-            return res.json();
-        })
-        .then(function(result) {
-            try {
-                var resultSingle = result.items[0];            
-                readResultSingle(resultSingle, false); 
-            } catch (error) {
-                console.log(error);
-            }
-            
-        }),
-        function(error) {
-            console.log(error);
-        };  
-}
 
 
 //------------------------------------------------------------------------------------create genre buttons
@@ -257,6 +325,7 @@ function addNewHistoryButton(){
     var btn = document.createElement('BUTTON');
     btn.id = aStorageBook.isbn;
     btn.setAttribute("class", "isbn_search");
+    
     var sButtonText = aStorageBook.title + " by " + aStorageBook.author + " with tea " + aStorageTea.teaName
     var tNode = document.createTextNode(sButtonText);
     btn.appendChild(tNode);
@@ -266,59 +335,31 @@ function addNewHistoryButton(){
 
 
 //------------------------------------------------------------------------------------
-function searchByGenre() {
-    var sID = $(this.id);
-    var sSubject= sID;  //"autobiography", 'fiction', 'humor', 'mystery',  - OK
+// function searchByGenre() {
+//     var sID = $(this.id);
+//     var sSubject= sID;  //"autobiography", 'fiction', 'humor', 'mystery',  - OK
 
-    var sGoogleURL = "https://www.googleapis.com/books/v1/volumes?q=";
-    var sKeySearch = "subject" + ":" + sSubject; 
-    var sMyKey = "&key=" + sGoogleAPIKey;
-    var sFetchURL = sGoogleURL + sKeySearch + sMyKey;
+//     var sGoogleURL = "https://www.googleapis.com/books/v1/volumes?q=";
+//     var sKeySearch = "subject" + ":" + sSubject; 
+//     var sMyKey = "&key=" + sGoogleAPIKey;
+//     var sFetchURL = sGoogleURL + sKeySearch + sMyKey;
 
-    fetch(sFetchURL)
-        .then(function(res) {
-            return res.json();
-        })
-        .then(function(result) {
-            var oItems = result.items;
-            var iLength = oItems.length;
-            var iRandomIndex = getRandomNumber(iLength);
-            var resultSingle = oItems[iRandomIndex];
-            //readResults(result);
-            readResultSingle(resultSingle, true);
-        }),
-        function(error) {
-            console.log(error);
-        };
-}
-
-        //------------------------------------------------------------------searchByTypedText
-        function  searchByTypedText() {
-
-            var selectedText = "title"; //["title" ,  "author", "publisher"]
-            selectedText = "in" + selectedText;
-        
-            var oTypedText = document.querySelector("#search-input");
-            var typedText = oTypedText.value;
-            oTypedText.value = "";
-        
-            var sGoogleURL =     "https://www.googleapis.com/books/v1/volumes?q=";
-            var sKeySearch = selectedText  + ":" + typedText ;      
-            var sMyKey = "&key=" + sGoogleAPIKey;
-            var sFetchURL = sGoogleURL + sKeySearch + sMyKey;
-        
-            fetch(sFetchURL)
-                .then(function(res) {
-                return res.json();
-                })
-                .then(function(result) {
-                var resultSingle = result.items[0];
-                readResultSingle(resultSingle, true);
-                }),
-                function(error) {
-                console.log(error);
-                };
-        }
+//     fetch(sFetchURL)
+//         .then(function(res) {
+//             return res.json();
+//         })
+//         .then(function(result) {
+//             var oItems = result.items;
+//             var iLength = oItems.length;
+//             var iRandomIndex = getRandomNumber(iLength);
+//             var resultSingle = oItems[iRandomIndex];
+//             //readResults(result);
+//             readResultSingle(resultSingle, true);
+//         }),
+//         function(error) {
+//             console.log(error);
+//         };
+// }
         
 
 //---------------------------------------------------------------------------readResultSingle
@@ -338,9 +379,68 @@ function readResultSingle(book) {
     let description = book.volumeInfo.description;
     let thumbnail = book.volumeInfo.imageLinks.thumbnail;
     let infoLink = book.volumeInfo.infoLink;
-    let isbn = book.volumeInfo.industryIdentifiers[1].identifier;
+    let isbn;
+    // Error handling - AH 11/6
+    try {
+        isbn = book.volumeInfo.industryIdentifiers[1].identifier;
+    } catch(e) {
+        isbn = book.volumeInfo.industryIdentifiers[0].identifier;
+    }
+    
 
-    // Replace Zoom Parameter in thumbnail link
+    // Set book info values based on data completeness
+    let missingData = "Not Available";
+    author = author  ? author : missingData;
+    publisher = publisher ? publisher : missingData;
+    pageCount = pageCount ? pageCount : missingData;
+    description = description ? description : missingData;
+
+    let stats = [
+        {
+            label: "Page Count: ",
+            value: pageCount
+        },
+        {
+            label: "Publisher: ",
+            value: publisher
+        },
+        {
+            label: "Published: ",
+            value: publishedDate
+        },
+        {
+            label: "Detailed Info: ",
+            value: infoLink
+        }
+    ]
+
+    // Generate Book stats
+    var $value;
+    for (let stat of stats) {
+        // create div
+        let $tempDiv = document.createElement('div');
+
+        // append span and p tag if not a link
+        let $label = document.createElement("span");
+        $label.setAttribute("class", "stat-label");
+        $label.textContent = stat.label;
+
+        if(stat.label === "Detailed Info: ") {
+            // create link
+            $value = document.createElement("a");
+            $value.setAttribute("href",stat.value);
+            $value.textContent = "Google Books";
+        } else {
+            $value = document.createElement("p");
+            $value.textContent = stat.value;
+        }
+
+        $tempDiv.appendChild($label);
+        $tempDiv.appendChild($value);
+        $bookStats.appendChild($tempDiv);
+
+        // append to $bookStatss
+    }
     //AE - thumbnail address cannot be changed as Google has zoom=1 in address
     //AE - If we want to set zoom to 90% (or so), I strongly believe that we have to do it through css
     //AE removed - thumbnail = thumbnail.replace("zoom=1","zoom='90%'");
@@ -350,7 +450,6 @@ function readResultSingle(book) {
     var screenCoverArea = $("#book-cover");
     screenCoverArea.attr('src', thumbnail);
 
-    // Render Content
 
     // Render Title
     var $bookTitle = document.createElement("h2");
@@ -380,83 +479,6 @@ function readResultSingle(book) {
     }    
     $bookDescription.appendChild($bookSummary);
 
-    // Render Book Stats
-    let $table = document.createElement("table");
-    let $row1 = document.createElement("tr");
-
-    let $pagesLabel = document.createElement("td");
-    $pagesLabel.setAttribute("class","is-borderless stat-label");
-    $pagesLabel.textContent = "Page Count:";
-    $row1.appendChild($pagesLabel);
-
-    // Render Page Count
-    let $pageCount = document.createElement("td");
-    $pageCount.setAttribute("class","is-borderless");
-    if(pageCount) {
-        $pageCount.textContent = pageCount;
-    } else {
-        $pageCount.textContent = "Not Available";
-    }
-    $row1.appendChild($pageCount);
-
-    let $infoLabel = document.createElement("td");
-    $infoLabel.setAttribute("class","is-borderless stat-label");
-    $infoLabel.textContent = "Detailed Info:";
-    $row1.appendChild($infoLabel);
-
-    // Render book link
-    var $infoLink;
-    if (infoLink) {
-        $infoLink = document.createElement("a");
-        $infoLink.setAttribute("class", "is-borderless");
-        $infoLink.setAttribute("href", infoLink);
-        $infoLink.textContent="Google Books";
-    } else {
-        $infoLink = document.createElement("p");
-        $infoLink.setAttribute("class", "is-borderless");
-        $infoLink.textContent="Link not available";
-    }
-    $row1.appendChild($infoLink);
-
-    // Append row to table
-    $table.appendChild($row1);
-
-    // Render second row
-    $row2 = document.createElement("tr");
-
-    // Render Publisher Info
-    let $publisherLabel = document.createElement("td");
-    $publisherLabel.setAttribute("class", "is-borderless stat-label");
-    $publisherLabel.textContent = "Publisher:";
-    $row2.appendChild($publisherLabel);
-
-    let $publisher = document.createElement("td");
-    $publisher.setAttribute("class", "is-borderless");
-    if(publisher) {
-        $publisher.textContent = publisher;
-    } else {
-        $publisher.textContent = "Not availabile"
-    }
-    $row2.appendChild($publisher);
-
-    // Render published info
-    let $publishedDateLabel = document.createElement("td");
-    $publishedDateLabel.setAttribute("class", "is-borderless stat-label");
-    $publishedDateLabel.textContent ="Published:";
-    $row2.appendChild($publishedDateLabel);
-
-    let $publishedDate = document.createElement("td");
-    $publishedDate.setAttribute("class", "borderless");
-    if(publishedDate) {
-        $publishedDate.textContent = dayjs(publishedDate).year();
-    } else {
-        $publishedDate.textContent = "Not available";
-    }
-
-    $row2.appendChild($publishedDate);
-    $table.appendChild($row2);
-    $bookStats.appendChild($table);
-
 
 // ---------- TODO: Refactor local storage to match current function variables --------
     // AH -- Removed if statements for author. Added flow control above.
@@ -484,3 +506,6 @@ function cleanLocalStorage() {
         localStorage.setItem(sLocalStorageName, JSON.stringify(localarrSearchCollections));  
     }
 }
+
+//-----------------------------------------------------------------START  
+loadPage();

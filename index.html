@@ -17,9 +17,6 @@
     <!-- All in-line css should be removed or replaced with styling from the style.css stylesheet.
     The current styling is only present so that the team can see the different content sections -->
 
-    <!-- Reilly 11/1 -->
-    <!-- Removed most of the inline styling, kept some borders to be able to see containers but will remove later. Kept some inline styling that worked well and would only make the css more messy -->
-
     <header>    
         <nav class="navbar column is-full is-light" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
@@ -39,8 +36,8 @@
             <button onclick = "cleanLocalStorage()" > Clear Search History </button> <!-- AE 11/6 Added ID -->
           </form>
         </aside>
-        <section class="column is-four-fifths is-flex is-flex-wrap-wrap is-align-content-space-around">
-            <div id="button-container" class="column is-full box box-background-color" style="height: 11%;">
+        <section class="column is-four-fifths is-flex is-flex-wrap-wrap is-align-content-space-between">
+            <div id="button-container" class="column is-full box box-background-color">
               
               <div class="field is-grouped is-justify-content-space-around buttons are-medium">
                   
@@ -73,7 +70,7 @@
             </div>
             <!-- Reilly 11/1 -->
             <!-- I left the green borders so we would be able to see the containers -->
-            <div id="book-container" class="column is-full columns box box-background-color" style="height: 35%;">
+            <div id="book-container" class="column is-full columns box box-background-color">
                  
                 <div class ="is-2 column is-flex is-justify-content-center is-align-items-center">
                     <!-- The image source should have the zoom parameter removed or zoom=0 -->
@@ -83,13 +80,13 @@
                   <div id="book-description" class="column">
                     <!-- Book Info Goes Here -->
                   </div>
-                  <div id="book-stats" class="column">
+                  <div id="book-stats">
                     <!-- Book stats table renders here -->
                   </div>
                 </div>
    
             </div>
-            <div id="tea-container" class="columns column is-full box box-background-color" style="height: 35%;">
+            <div id="tea-container" class="columns column is-full box box-background-color">
                 <div class ="is-2 column is-flex is-justify-content-center is-align-items-center">
                     <!-- Depending on the sizes of the tea images, we may need to change the placeholder and/or the styling -->
                     <img id="tea-image" src="https://placehold.co/175x265" alt="placeholder image" style="max-height: 95%">
