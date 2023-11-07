@@ -131,7 +131,6 @@ label {
     background-color: var(--white);
 }
 
-<<<<<<< HEAD
 #book-container {
     margin: 0%;
     background-color: var(--white);
@@ -152,8 +151,6 @@ label {
     /* border:blue 2px dashed; */
 }
 
-=======
->>>>>>> 2833bcfbac4c5c002d0932878f95696502e2a216
 /* For author's name in book info - 11/2 AH */
 #author-info {
     font-style: italic;
