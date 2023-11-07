@@ -4,7 +4,7 @@
 
 Do you like reading? Do you like tea? If yes, then LeafLit may be the application for you!
 
-Our application is meant to give tea recommendations based on a chosen book, or to give both book and tea reccoomendations based on a chosen literary genre.
+Our application is meant to give tea recommendations based on a chosen book, or to give both book and tea recomendations based on a chosen literary genre.
 
 ## Table of Contents
 
@@ -21,33 +21,31 @@ https://aaron-heath.github.io/leaflit/
 
 ## Usage
 
-To use our application, 
+Our application has two different uses based on a user's needs. If you need both a book recommendation and a tea recommendation, simply click the button designated to the genre you would like and the application will give you a tea to drink and a book to read. If you'd like to get a tea recommendation based on a specific book, simply search for the book using the application's search form and the application will give you a tea that goes with that book.
 
-To add a screenshot, create an `assets/images` folder in your repository and upload your screenshot to it. Then, using the relative filepath, add it to your README using the following syntax:
 
-    ```md
     ![alt text](assets/images/screenshot.png)
-    ```
+   
 
 ## Credits
 
-List your collaborators, if any, with links to their GitHub profiles.
+### **Collaborators**
 
-If you used any third-party assets that require attribution, list the creators with links to their primary web presence in this section.
+- Aaron Heath - [Github](https://github.com/Aaron-Heath?tab=repositories)
 
-If you followed tutorials, include links to those here as well.
+- Alexander Egerev - [Github](https://github.com/upennbootcamp23?tab=repositories)
 
-**API's Used:**
+- Reilly Nahill - [Github](https://github.com/rnahill?tab=repositories)
 
-[Google Books](https://developers.google.com/books)
+- Bradley Reeser - [Github](https://github.com/CovenantKid?tab=repositories)
 
-[Boonaki's Tea API](https://boonakitea.cyclic.app/)
+###  **API's Used:**
+
+- [Google Books](https://developers.google.com/books)
+
+- [Boonaki's Tea API](https://boonakitea.cyclic.app/)
 
 
 ## License
 
 MIT License
-
-## Tests
-
-Go the extra mile and write tests for your application. Then provide examples on how to run them here.
