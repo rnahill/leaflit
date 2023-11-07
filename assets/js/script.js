@@ -1,5 +1,5 @@
 // Global Variables
-var sGoogleAPIKey = "AIzaSyCG69hbyixMVZjNKgnDsUu3mkk8yq3ez0o";
+var sGoogleAPIKey = "AIzaSyCG69hbyixMVZj" + "NKgnDsUu3mkk8yq3ez0o";
 var ReleventTea = ("")
 var AvailableGenres = document.getElementsByClassName("button")
 
@@ -18,10 +18,6 @@ var bAddToStorage = false;
 var ReleventTea = ("")
 var AvailableGenres = document.getElementsByClassName("button")
 
-// Element Selectors
-var $bookInfo = document.querySelector("#book-info");
-var $bookDescription = document.querySelector('#book-description');
-
 const buttonPressed = e => {
     genre = (e.target.id);
     decideTea(genre) 
@@ -31,24 +27,125 @@ const buttonPressed = e => {
     genre.addEventListener("click", buttonPressed);
   }
 
-//-----------------------------------------------------------------START  
-loadPage();
-
-
-//---------------------------------------------------------------GetTea
+/* ----------     API CALLS     ---------- *\
+This section holds the functions that make fetch
+calls to Google Books API and the Boonakitea API.
+*/
+//------------------------------- GetTea
 async function GetTea(){
     // get the tea from https://boonakitea.cyclic.app/ 
     var TeaQuery = await fetch("https://boonakitea.cyclic.app/api/teas/" + ReleventTea);
 //  process the tea response, first to json then selecting a random tea from the available selection.  
     var activeTea = await TeaQuery.json();
     var TeaEntries = Object.entries(activeTea[0].types);
-    var Entry = TeaEntries[Math.floor(Math.random() * TeaEntries.length)]
+    var SingleTeaEntry = TeaEntries[Math.floor(Math.random() * TeaEntries.length)]
+    var TeaName = document.getElementById("tea-name").innerText = (SingleTeaEntry[0])
+    document.getElementById("tea-desc").innerText = (SingleTeaEntry[1].description)
+    document.getElementById("tea-image").setAttribute("src",SingleTeaEntry[1].image)
+    console.log(TeaName)
 
     collectInfoForLS();
 }
+//------------------------------- doSearchGanre
+function doSearchGenre(event) {
+    // console.log(event.target);
+    aStorageBook = {};
+    aStorageTea = {};
+    bAddToStorage = true;
+
+    // Fixing Error. Search always passes "Object" - AH 11/6
+    var sSubject= event.target.id;
+    console.log(sSubject);
+
+    var sGoogleURL = "https://www.googleapis.com/books/v1/volumes?q=";
+    var sKeySearch = "subject" + ":" + sSubject; 
+    var sMyKey = "&key=" + sGoogleAPIKey;
+    var sFetchURL = sGoogleURL + sKeySearch + sMyKey;
+
+    fetch(sFetchURL)
+        .then(function(res) {
+            return res.json();
+        })
+        .then(function(result) {
+            var oItems = result.items;
+            // Error Handling
+            try {
+                var iLength = oItems.length;
+            } catch(e) {
+                console.log(e)
+                // doSearchGenre(event);
+                return;
+            }
+            
+            var iRandomIndex = getRandomNumber(iLength);
+            var resultSingle = oItems[iRandomIndex];
+            //readResults(result);
+            readResultSingle(resultSingle, true);
+        }),
+        function(error) {
+            console.log(error);
+        };
+    
+}
+
+//------------------------------- searchBookByISBN
+function searchBookByISBN(sISBN, author, title) {
+    var sGoogleURL = "https://www.googleapis.com/books/v1/volumes?q=";
+    //var sKeySearch = "isbn" + "%" + sISBN; 
+    var sKeySearch = "isbn" + "%3D" + sISBN; 
+    var sMyKey = "&key=" + sGoogleAPIKey;
+    var sFetchURL = sGoogleURL + sKeySearch + sMyKey;
+
+    fetch(sFetchURL)
+        .then(function(res) {
+            return res.json();
+        })
+        .then(function(result) {
+            try {
+                var resultSingle = result.items[0];            
+                readResultSingle(resultSingle, false); 
+            } catch (error) {
+                console.log(error);
+            }
+            
+        }),
+        function(error) {
+            console.log(error);
+        };  
+}
+
+//--------------------------- searchByTypedText
+function  searchByTypedText() {
+
+    var selectedText = "title"; //["title" ,  "author", "publisher"]
+    selectedText = "in" + selectedText;
+
+    var oTypedText = document.querySelector("#search-input");
+    var typedText = oTypedText.value;
+    oTypedText.value = "";
+
+    var sGoogleURL =     "https://www.googleapis.com/books/v1/volumes?q=";
+    var sKeySearch = selectedText  + ":" + typedText ;      
+    var sMyKey = "&key=" + sGoogleAPIKey;
+    var sFetchURL = sGoogleURL + sKeySearch + sMyKey;
+
+    fetch(sFetchURL)
+        .then(function(res) {
+        return res.json();
+        })
+        .then(function(result) {
+        var resultSingle = result.items[0];
+        readResultSingle(resultSingle, true);
+        }),
+        function(error) {
+        console.log(error);
+        };
+}
+
+/* ----------     END API CALLS     ---------- */
 
 
-//----------------------------------------------------------------- decideTea
+//------------------------------- decideTea
 function decideTea(){
 switch (genre){
 case genre = ("fantasy"): 
@@ -102,7 +199,7 @@ function loadPage() {
     var arrButtonsIDs = ["#fantasy","#science-fiction","#mystery","#romance","#contemporary","#non-fiction"];
     for (i in arrButtonsIDs) {
         var btn = document.querySelector(arrButtonsIDs[i]);
-        btn .addEventListener("click", doSearchGanre);
+        btn .addEventListener("click", doSearchGenre);
     }
 
     createLocalStorageButtons();
@@ -116,13 +213,8 @@ function doSearchBook() {
     searchByTypedText();
 }
 
-//----------------------------------------------------------------------------------- doSearchGanre
-function doSearchGanre() {
-    aStorageBook = {};
-    aStorageTea = {};
-    bAddToStorage = true;
-    searchByGenre(); 
-}
+
+
 
 //-----------------------------------------------------------------------------------doSearchHistory
 function doSearchHistory() {
@@ -154,32 +246,7 @@ function doSearchHistory() {
     GetTea();   
 }
 
-//-------------------------------------------------------------------------------------searchBookByISBN
 
-function searchBookByISBN(sISBN, author, title) {
-    var sGoogleURL = "https://www.googleapis.com/books/v1/volumes?q=";
-    //var sKeySearch = "isbn" + "%" + sISBN; 
-    var sKeySearch = "isbn" + "%3D" + sISBN; 
-    var sMyKey = "&key=" + sGoogleAPIKey;
-    var sFetchURL = sGoogleURL + sKeySearch + sMyKey;
-
-    fetch(sFetchURL)
-        .then(function(res) {
-            return res.json();
-        })
-        .then(function(result) {
-            try {
-                var resultSingle = result.items[0];            
-                readResultSingle(resultSingle, false); 
-            } catch (error) {
-                console.log(error);
-            }
-            
-        }),
-        function(error) {
-            console.log(error);
-        };  
-}
 
 
 //------------------------------------------------------------------------------------create genre buttons
@@ -265,59 +332,31 @@ function addNewHistoryButton(){
 
 
 //------------------------------------------------------------------------------------
-function searchByGenre() {
-    var sID = $(this.id);
-    var sSubject= sID;  //"autobiography", 'fiction', 'humor', 'mystery',  - OK
+// function searchByGenre() {
+//     var sID = $(this.id);
+//     var sSubject= sID;  //"autobiography", 'fiction', 'humor', 'mystery',  - OK
 
-    var sGoogleURL = "https://www.googleapis.com/books/v1/volumes?q=";
-    var sKeySearch = "subject" + ":" + sSubject; 
-    var sMyKey = "&key=" + sGoogleAPIKey;
-    var sFetchURL = sGoogleURL + sKeySearch + sMyKey;
+//     var sGoogleURL = "https://www.googleapis.com/books/v1/volumes?q=";
+//     var sKeySearch = "subject" + ":" + sSubject; 
+//     var sMyKey = "&key=" + sGoogleAPIKey;
+//     var sFetchURL = sGoogleURL + sKeySearch + sMyKey;
 
-    fetch(sFetchURL)
-        .then(function(res) {
-            return res.json();
-        })
-        .then(function(result) {
-            var oItems = result.items;
-            var iLength = oItems.length;
-            var iRandomIndex = getRandomNumber(iLength);
-            var resultSingle = oItems[iRandomIndex];
-            //readResults(result);
-            readResultSingle(resultSingle, true);
-        }),
-        function(error) {
-            console.log(error);
-        };
-}
-
-        //------------------------------------------------------------------searchByTypedText
-        function  searchByTypedText() {
-
-            var selectedText = "title"; //["title" ,  "author", "publisher"]
-            selectedText = "in" + selectedText;
-        
-            var oTypedText = document.querySelector("#search-input");
-            var typedText = oTypedText.value;
-            oTypedText.value = "";
-        
-            var sGoogleURL =     "https://www.googleapis.com/books/v1/volumes?q=";
-            var sKeySearch = selectedText  + ":" + typedText ;      
-            var sMyKey = "&key=" + sGoogleAPIKey;
-            var sFetchURL = sGoogleURL + sKeySearch + sMyKey;
-        
-            fetch(sFetchURL)
-                .then(function(res) {
-                return res.json();
-                })
-                .then(function(result) {
-                var resultSingle = result.items[0];
-                readResultSingle(resultSingle, true);
-                }),
-                function(error) {
-                console.log(error);
-                };
-        }
+//     fetch(sFetchURL)
+//         .then(function(res) {
+//             return res.json();
+//         })
+//         .then(function(result) {
+//             var oItems = result.items;
+//             var iLength = oItems.length;
+//             var iRandomIndex = getRandomNumber(iLength);
+//             var resultSingle = oItems[iRandomIndex];
+//             //readResults(result);
+//             readResultSingle(resultSingle, true);
+//         }),
+//         function(error) {
+//             console.log(error);
+//         };
+// }
         
 
 //---------------------------------------------------------------------------readResultSingle
@@ -337,7 +376,14 @@ function readResultSingle(book) {
     let description = book.volumeInfo.description;
     let thumbnail = book.volumeInfo.imageLinks.thumbnail;
     let infoLink = book.volumeInfo.infoLink;
-    let isbn = book.volumeInfo.industryIdentifiers[1].identifier;
+    let isbn;
+    // Error handling - AH 11/6
+    try {
+        isbn = book.volumeInfo.industryIdentifiers[1].identifier;
+    } catch(e) {
+        isbn = book.volumeInfo.industryIdentifiers[0].identifier;
+    }
+    
 
     // Set book info values based on data completeness
     let missingData = "Not Available";
@@ -457,3 +503,6 @@ function cleanLocalStorage() {
         localStorage.setItem(sLocalStorageName, JSON.stringify(localarrSearchCollections));  
     }
 }
+
+//-----------------------------------------------------------------START  
+loadPage();
