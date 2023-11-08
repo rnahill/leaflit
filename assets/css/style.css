@@ -187,4 +187,60 @@ label {
     background-color: var(--pink);
 }
 
+/* Responsive Design */
+@media screen and (max-width: 780px) {
+    html {
+        max-width: 100%;
+    }
+    main {
+        display: flex !important;
+        flex-direction: column !important;
+        /* background-color: lightgreen; */
+    }
 
+    main > section {
+        display: flex;
+        width: 100% !important;
+        flex-wrap: wrap;
+        flex-direction: column;
+        /* border: red solid 2px; */
+    }
+
+    #book-container, #tea-container {
+        display: flex !important;
+    }
+
+    #book-stats {
+        width: 100% !important;
+    }
+    
+    .isbn_search {
+        flex: 1;
+        width: 45%;
+        font-size: 15px;
+        margin:5px;
+        padding: 5px 0 !important; 
+    }
+
+    form {
+        background-color: transparent;
+        border: none;
+        max-height: 150px
+    }
+
+    form input {
+        width:80% !important;
+        margin-right: 0px !important;
+        border-radius: 9999px 0 0 9999px !important;
+    }
+
+    #search-btn {
+        border-radius: 0 9999px 9999px 0 !important;
+        margin: 0px !important;
+        margin-top: 8px !important;
+        height: 40px;
+        width: 18%
+    }
+
+    
+  }
