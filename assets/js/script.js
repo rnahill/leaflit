@@ -1,7 +1,7 @@
 // Global Variables
 var sGoogleAPIKey = "AIzaSyCG69hbyixMVZj" + "NKgnDsUu3mkk8yq3ez0o";
-var ReleventTea = ("")
 var AvailableGenres = document.getElementsByClassName("button")
+
 
 // Element Selectors
 var $bookInfo = document.querySelector("#book-info");
@@ -32,22 +32,30 @@ This section holds the functions that make fetch
 calls to Google Books API and the Boonakitea API.
 */
 //------------------------------- GetTea
-async function GetTea(){
-    // get the tea from https://boonakitea.cyclic.app/ 
-    var TeaQuery = await fetch("https://boonakitea.cyclic.app/api/teas/" + ReleventTea);
+async function GetTea(StoredTea = ReleventTea){
+        var TeaQuery = await fetch("https://boonakitea.cyclic.app/api/teas/" + StoredTea);
+
 //  process the tea response, first to json then selecting a random tea from the available selection.  
     var activeTea = await TeaQuery.json();
-    var TeaEntries = Object.entries(activeTea[0].types);
-    var SingleTeaEntry = TeaEntries[Math.floor(Math.random() * TeaEntries.length)]
-    var TeaName = document.getElementById("tea-name").innerText = (SingleTeaEntry[0])
-    document.getElementById("tea-desc").innerText = (SingleTeaEntry[1].description)
-    document.getElementById("tea-image").setAttribute("src",SingleTeaEntry[1].image)
-    console.log(TeaName)
+    if(activeTea[0].types){
+        TeaEntries = Object.entries(activeTea[0].types);
+        var SingleTeaEntry = TeaEntries[Math.floor(Math.random() * TeaEntries.length)]
+        var TeaName = document.getElementById("tea-name").innerText = (SingleTeaEntry[0])
+        document.getElementById("tea-desc").innerText = (SingleTeaEntry[1].description)
+        document.getElementById("tea-image").setAttribute("src",SingleTeaEntry[1].image)
+    }
+    else{
+       SingleTeaEntry = activeTea[0]
+       document.getElementById("tea-desc").innerText = (SingleTeaEntry.description)
+       document.getElementById("tea-image").setAttribute("src",SingleTeaEntry.image)
+    }
+   
 
     //AE - this is for TESTING PURPOSES ONLY for adding a button dynamically
     //After Local Storage is updated, this can be removed
     aStorageTea = {id: "", teaName: TeaName, teaFlavor: ""};
     collectInfoForLS();
+    
 }
 //------------------------------- doSearchGanre
 function doSearchGenre(event) {
@@ -155,39 +163,39 @@ case genre = ("fantasy"):
     ReleventTea = ("Black");
     console.log(ReleventTea);
     GetTea()
-    break;
+    return ReleventTea
  case genre = ("science-fiction"):
     ReleventTea = ("white");
     console.log(ReleventTea);
-    GetTea()
-    break;
+    return ReleventTea
+
 case genre = ("mystery"):
     ReleventTea = ("White");
     console.log(ReleventTea);
     GetTea()
-    break;
+    return ReleventTea
 case genre = ("romance"):
     ReleventTea = ("green");
     console.log(ReleventTea);
     GetTea()
-    break;
+    return ReleventTea
 case genre = ("contemporary"):
     ReleventTea = ("Green");
     console.log(ReleventTea);
     GetTea()
-    break;
+    return ReleventTea
 case genre = ("non-fiction"):
     ReleventTea = ("black");
     console.log(ReleventTea);
     GetTea()
-    break;
+    return ReleventTea
     // added case to prevent the search form from calling tea api.
 case genre = ("search-form"):
     break;
 default:
     ReleventTea = ("black");
     console.log(ReleventTea);
-    GetTea()
+    return ReleventTea
 }}
 
 
@@ -225,10 +233,9 @@ function doSearchHistory() {
     aStorageBook = {};
     aStorageTea = {};
     bAddToStorage = false;
-
+    
     var author = "";
     var title = "";
-    var teaName = "";
 
     for (var i in arrSearchCollections) {
         var aLocalStorageBook = arrSearchCollections[i].book;
@@ -239,14 +246,13 @@ function doSearchHistory() {
 
             // Info for Tea:
             var aLocalStorageTea = arrSearchCollections[i].tea;
-            teaName = aLocalStorageTea.teaName;
-
+            var teaName = aLocalStorageTea.teaName;
             break;
         }
     }
 
     searchBookByISBN(sISBN, author, title);
-    GetTea();   
+    GetTea(teaName); 
 }
 
 
