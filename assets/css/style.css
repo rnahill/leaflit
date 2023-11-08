@@ -17,8 +17,7 @@
 /* Element Selectors */
 html {
     background-color: var(--blue);
-    min-height: 100% !important;
-    
+    min-height: 100% !important;    
 }
 
 
@@ -104,9 +103,16 @@ label {
     100% { transform: scale(1, 1); }
   }
 
-#search-btn {
+#search-btn,
+#clear-history {
  background-color: var(--red);
  color: var(--pink)
+}
+
+#clear-history {
+    margin: 12px;
+    background-color: var(--blue);
+    border-color: var(--brown);
 }
 
 #fantasy {
@@ -151,6 +157,7 @@ label {
 #book-container {
     margin: 0%;
     background-color: var(--white);
+    /* width: 100%; */
 }
 
 #book-stats {
@@ -187,6 +194,7 @@ label {
     background-color: var(--pink);
 }
 
+
 /* Responsive Design */
 @media screen and (max-width: 780px) {
     html {
@@ -195,12 +203,14 @@ label {
     main {
         display: flex !important;
         flex-direction: column !important;
+        align-items: center;
+        max-width: 752px;
         /* background-color: lightgreen; */
     }
 
     main > section {
         display: flex;
-        width: 100% !important;
+        width: 95% !important;
         flex-wrap: wrap;
         flex-direction: column;
         /* border: red solid 2px; */
@@ -208,6 +218,11 @@ label {
 
     #book-container, #tea-container {
         display: flex !important;
+        max-width: 680px;
+    }
+
+    .column {
+        display:block !important;
     }
 
     #book-stats {
@@ -225,7 +240,8 @@ label {
     form {
         background-color: transparent;
         border: none;
-        max-height: 150px
+        max-height: 150px;
+        padding-top: 5px;
     }
 
     form input {
