@@ -82,8 +82,6 @@ label {
 } 
 
 
-
-/* ID's */
 .isbn_search {
     background-color: var(--red);
     color: var(--pink);
@@ -103,6 +101,8 @@ label {
     100% { transform: scale(1, 1); }
   }
 
+
+  /* ID's */
 #search-btn,
 #clear-history {
  background-color: var(--red);
@@ -115,6 +115,9 @@ label {
     border-color: var(--brown);
 }
 
+
+/* Genre Buttons */
+
 #fantasy {
 
     font-family: 'Noto Serif', serif;
@@ -122,10 +125,34 @@ label {
 
 }
 
+#fantasy:hover {
+    background-color: rgb(178, 34, 52);
+    color: var(--white);
+}
+
+
 #science-fiction {
 
     font-family: 'Roboto Mono', monospace;
     background-color: var(--white);
+}
+
+#science-fiction:hover {
+
+    background-color: rgb(217, 85, 37);
+    color:var(--white);
+}
+
+#mystery {
+
+    font-family: 'Lora', serif;
+    background-color: var(--white);
+}
+
+#mystery:hover {
+
+    background-color: rgb(90, 0, 103);
+    color:var(--white);
 }
 
 #romance {
@@ -135,11 +162,10 @@ label {
 
 }
 
-#mystery {
+#romance:hover {
 
-
-    font-family: 'Lora', serif;
-    background-color: var(--white);
+    background-color: rgb(218, 140, 156);
+    color:var(--white);
 }
 
 #contemporary {
@@ -148,11 +174,25 @@ label {
     background-color: var(--white);
 }
 
+#contemporary:hover {
+
+    background-color: rgb(100, 159, 70);
+    color:var(--white);
+}
+
 #non-fiction {
     
     font-family: 'Times New Roman', Times, serif;
     background-color: var(--white);
 }
+
+#non-fiction:hover {
+
+    background-color: rgb(18, 72, 143);
+    color:var(--white);
+}
+
+/* End Genre Buttons */
 
 #book-container {
     margin: 0%;
