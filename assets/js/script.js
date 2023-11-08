@@ -294,6 +294,20 @@ function collectInfoForLS(){
         return;
     }
 
+    //Check if length of the storage array is less than or equal to 7. If not - remove the oldest one
+    var iLen = arrSearchCollections.length;
+    if(iLen >= 7) {
+            arrSearchCollections.splice(0, 1);
+
+            //remove first found button
+            var buttonsSection = document.querySelector("#search-box");
+            var btn= document.querySelector(".isbn_search");//getElementsByClassName("isbn_search");
+
+            buttonsSection.removeChild(btn);
+
+    }
+        
+            
     //Loop at arrSearchCollections to find duplicates
     for (var i in arrSearchCollections) {
         var aLocalStorageBook = arrSearchCollections[i].book;
@@ -316,6 +330,9 @@ function collectInfoForLS(){
 
     //add new button
     addNewHistoryButton();
+
+    //refreshing the screen
+    //location.reload(true);
 }
 
 //----------------------------------------------------------------addNewHistoryButton
