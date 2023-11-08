@@ -2,7 +2,13 @@
 
 ## Description
 
-Do you like reading? Do you like tea? If yes, then LeafLit may be the application for you!
+- Have you ever sat down to read a book, and thought "Hm, some tea would be nice with this book." ?
+
+- Have you ever been at a loss trying to choose a book to read?
+
+- Have you ever had a hard time choosing which tea to drink with your book?
+
+If you answered yes to any of these questions, then LeafLit may be the application for you!
 
 Our application is meant to give tea recommendations based on a chosen book, or to give both book and tea recomendations based on a chosen literary genre.
 
@@ -44,6 +50,9 @@ Our application has two different uses based on a user's needs. If you need both
 - [Google Books](https://developers.google.com/books)
 
 - [Boonaki's Tea API](https://boonakitea.cyclic.app/)
+
+### **CSS Framework Used:**
+- [Bulma](https://bulma.io/)
 
 
 ## License
