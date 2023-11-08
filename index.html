@@ -31,9 +31,8 @@
         <aside class="column box box-background-color" id = "search-box">   <!-- AE 11/2 Added ID -->
           <form id="search-form">
             <label for="book-search" class="m-1">Search for a book:</label><br>
-            <input class="input is-rounded mt-2" type="text" id="search-input" placeholder="Book name">
-            <button class="button m-3" id="search-btn">Search</button>
-            <button onclick = "cleanLocalStorage()" > Clear Search History </button> <!-- AE 11/6 Added ID -->
+            <input class="input is-rounded mt-2" type="text" id="search-input" placeholder="Book name"><button class="button m-3" id="search-btn">Search</button>
+            <button id="clear-history" class="button" onclick = "cleanLocalStorage()" > Clear Search History </button> <!-- AE 11/6 Added ID -->
           </form>
         </aside>
         <section class="column is-four-fifths is-flex is-flex-wrap-wrap is-align-content-space-between">
