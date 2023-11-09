@@ -30,7 +30,7 @@ https://aaron-heath.github.io/leaflit/
 Our application has two different uses based on a user's needs. If you need both a book recommendation and a tea recommendation, simply click the button designated to the genre you would like and the application will give you a random tea to drink and a random book to read. If you'd like to get a tea recommendation based on a specific book, simply search for the book using the application's search form and the application will give you a random tea that goes with that book.
 
 
-    ![alt text](assets/images/screenshot.png)
+![Application Screenshot](assets/images/aaron-heath.github.io_leaflit_.png)
    
 
 ## Credits
