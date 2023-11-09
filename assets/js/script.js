@@ -41,12 +41,23 @@ async function GetTea(StoredTea = ReleventTea){
         TeaEntries = Object.entries(activeTea[0].types);
         var SingleTeaEntry = TeaEntries[Math.floor(Math.random() * TeaEntries.length)]
         var TeaName = document.getElementById("tea-name").innerText = (SingleTeaEntry[0])
-        document.getElementById("tea-desc").innerText = (SingleTeaEntry[1].description)
+        if(SingleTeaEntry[1].description) {
+            document.getElementById("tea-desc").innerText = (SingleTeaEntry[1].description)
+        } else {
+            document.getElementById("tea-desc").innerText = (SingleTeaEntry[1].tasteDescription)
+        }
+        
         document.getElementById("tea-image").setAttribute("src",SingleTeaEntry[1].image)
     }
     else{
        SingleTeaEntry = activeTea[0]
-       document.getElementById("tea-desc").innerText = (SingleTeaEntry.description)
+       
+       if(SingleTeaEntry.description) {
+        document.getElementById("tea-desc").innerText = (SingleTeaEntry.description)
+       } else {
+        document.getElementById("tea-desc").innerText = (SingleTeaEntry.tasteDescription)
+    }
+
        document.getElementById("tea-image").setAttribute("src",SingleTeaEntry.image)
     }
    
