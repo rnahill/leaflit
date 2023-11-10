@@ -41,6 +41,7 @@ async function GetTea(StoredTea = ReleventTea){
         TeaEntries = Object.entries(activeTea[0].types);
         var SingleTeaEntry = TeaEntries[Math.floor(Math.random() * TeaEntries.length)]
         var TeaName = document.getElementById("tea-name").innerText = (SingleTeaEntry[0])
+        document.getElementById("tea-name").setAttribute("class", "feature-title");
         if(SingleTeaEntry[1].description) {
             document.getElementById("tea-desc").innerText = (SingleTeaEntry[1].description)
         } else {
