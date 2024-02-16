@@ -1,10 +1,12 @@
 :root {
-    --red: rgb(152, 21, 32);
-    --white: rgb(255, 252, 239);
-    --blue: rgb(60, 105, 148);
-    --pink: rgb(216, 178, 160);
-    --orange: rgb(202, 104, 49);
-    --brown: rgb(128, 56, 42);
+    --pale-green: rgb(225, 237, 189);
+    --laurel-green: rgb(176, 207, 152);
+    --asparagus-green: rgb(130, 176, 104);
+    --russian-green: rgb(113, 154, 94);
+    --middle-green: rgb(90, 133, 89);
+    --amazon-green: rgb(66, 109, 84);
+    --lt-brown: rgb(100, 79, 63);
+    --dk-brown: rgb(60, 40, 28);
 }
 
 
@@ -14,15 +16,44 @@
 }
 
 
+
+/* New css created 2024 */
+
+.main-container {
+    box-sizing: border-box;
+      display: block;
+    
+      height: 100vh;
+      margin-left:  100px;
+      margin-right:  100px;
+      margin-top: 50px;
+      background-color: #E3EAEA;
+  }
+
+  .navbar {
+    background-color: var(--dk-brown) !important;
+  }
+
+/*  */
+
+
 /* Element Selectors */
 html {
-    background-color: var(--blue);
-    min-height: 100% !important;    
+    
+    min-height: 100% !important;  
+    background-color: var(--amazon-green);  
+}
+
+
+body {
+    background-color: var(--amazon-green);
 }
 
 
 main {
-    padding:20px; 
+    background-color: var(--russian-green) !important;
+    padding:20px;
+    margin-left: 50%;
     min-height:100%;
 }
 
@@ -34,20 +65,21 @@ section {
 aside {
     margin: 1%;
     height: 75vh;
+    background-color: var(--lt-brown) !important;
 }
 
 .box-background-color {
-background-color: var(--brown);
+background-color: var(--laurel-green);
 }
     
 
 form {
-    background-color: var(--orange);
+    background-color: var(--asparagus-green);
     margin: 1%;
     padding: 5%;
-    border: 1px solid var(--orange);
+    border: 1px solid var(--dk-brown);
     border-radius: 3%;
-    color: var(--white);
+    color: var(--dk-brown);
 }
 
 label {
@@ -83,8 +115,8 @@ label {
 
 
 .isbn_search {
-    background-color: var(--red);
-    color: var(--pink);
+    background-color: var(--yellow);
+    color: var(--dk-brown);
     font-weight: bold;
     border-radius: 12px; 
     width: 95%;
@@ -121,82 +153,88 @@ label {
 #fantasy {
 
     font-family: 'Noto Serif', serif;
-    background-color: var(--white);
+    background-color: var(--pale-green);
+    color: var(--dk-brown);
 
 }
 
 #fantasy:hover {
-    background-color: rgb(178, 34, 52);
-    color: var(--white);
+    background-color: var(--dk-brown);
+    color: var(--pale-green);
 }
 
 
 #science-fiction {
 
     font-family: 'Roboto Mono', monospace;
-    background-color: var(--white);
+    background-color: var(--pale-green);
+    color: var(--dk-brown);
 }
 
 #science-fiction:hover {
 
-    background-color: rgb(217, 85, 37);
-    color:var(--white);
+    background-color: var(--dk-brown);
+    color: var(--pale-green);
 }
 
 #mystery {
 
     font-family: 'Lora', serif;
-    background-color: var(--white);
+    background-color: var(--pale-green);
+    color: var(--dk-brown);
 }
 
 #mystery:hover {
 
-    background-color: rgb(90, 0, 103);
-    color:var(--white);
+    background-color: var(--dk-brown);
+    color: var(--pale-green);
 }
 
 #romance {
 
     font-family: 'Marck Script', cursive;
-    background-color: var(--white);
+    background-color: var(--pale-green);
+    color: var(--dk-brown)
 
 }
 
 #romance:hover {
 
-    background-color: rgb(218, 140, 156);
-    color:var(--white);
+    background-color: var(--dk-brown);
+    color: var(--pale-green);
 }
 
 #contemporary {
 
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    background-color: var(--white);
+    background-color: var(--pale-green);
+    color: var(--dk-brown)
 }
 
 #contemporary:hover {
 
-    background-color: rgb(100, 159, 70);
-    color:var(--white);
+    background-color: var(--dk-brown);
+    color: var(--pale-green);
 }
 
 #non-fiction {
     
     font-family: 'Times New Roman', Times, serif;
-    background-color: var(--white);
+    background-color: var(--pale-green);
+    color: var(--dk-brown)
 }
 
 #non-fiction:hover {
 
-    background-color: rgb(18, 72, 143);
-    color:var(--white);
+    background-color: var(--dk-brown);
+    color: var(--pale-green);
 }
 
 /* End Genre Buttons */
 
 #book-container {
     margin: 0%;
-    background-color: var(--white);
+    background-color: var(--amazon-green) !important;
     /* width: 100%; */
 }
 
@@ -226,12 +264,12 @@ label {
 
 #book-container {
     margin: 0% 0% 1% 0%;
-    background-color: var(--white);
+    background-color: var(--pale-green);
 }
 
 #tea-container {
     margin: 0% 0% 1% 0%;
-    background-color: var(--pink);
+    background-color: var(--amazon-green) !important;
 }
 
 
